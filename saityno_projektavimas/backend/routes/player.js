@@ -1,5 +1,6 @@
 const { Player, validatePlayer } = require('../models/player');
 const express = require('express');
+const validateObjectId = require('../middleware/validateObjectId');
 
 
 const router = express.Router();
@@ -22,6 +23,12 @@ router.get('/:page', (req, res) => {
 		throw new Error(ex);
 	}
 });
+
+router.get('/all/count', async (req, res) => {
+	let count = await Player.countDocuments({});
+	res.json(count);
+});
+
 router.get('/team/:name', async (req, res) => {
 	let teamAbbreviation = req.params.name.toUpperCase();
 	if(teamAbbreviation.length !== 3){
@@ -34,6 +41,12 @@ router.get('/team/:name', async (req, res) => {
 			res.send(playersByTeam);
 		}
 	}
+});
+
+router.get('/id/:id', validateObjectId, async (req, res) => {
+	let { id } = req.params;
+	let player = await Player.findById(id);
+	res.send(player);
 });
 
 router.get('/name/:name', async (req, res) => {

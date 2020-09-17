@@ -4,11 +4,17 @@ const mongoose = require('mongoose');
 const app = express();
 const router = require('./routes/index');
 const playersRouter = require('./routes/player');
+const usersRouter = require('./routes/user');
+const customTeamRouter = require('./routes/customTeam');
+const authRoute = require('./routes/auth');
 
 
 app.use(express.json());
 app.use('/', router);
 app.use('/players', playersRouter);
+app.use('/user', usersRouter);
+app.use('/customteam', customTeamRouter);
+app.use('/auth', authRoute);
 
 const PORT = process.env.PORT || config.get('port');
 // connect to db
