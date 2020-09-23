@@ -41,11 +41,11 @@ const userSchema = new Schema({
     }, 
     bank: {
         type: Number,
-        required: true
+        default: 25000000
     },
-    hadExtraPay: {
+    isAdmin: {
         type: Boolean,
-        default: false,
+        default: false
     }
 });
 userSchema.methods.generateAuthToken = function () {
@@ -72,7 +72,8 @@ function validateUser(user){
         username: Joi.string().min(5).required(),
         favTeam: Joi.string().optional(),
         favPlayer: Joi.string().optional(),
-        bank: Joi.number().required()
+        isAdmin: Joi.bool().optional(),
+        bank: Joi.number().optional()
     });
     return schema.validate(user);
 }

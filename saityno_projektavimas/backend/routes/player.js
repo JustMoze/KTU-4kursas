@@ -24,6 +24,49 @@ router.get('/:page', (req, res) => {
 	}
 });
 
+router.post('/', async (req, res) => {
+	const {error} = validatePlayer(req.body);
+	if(error){
+		return res.status(400).send(error.details[0].message);
+	}
+	try {
+		let {fullName, position, price, number, weight, 
+			height, age, mpg, fg, threePt, ft, ppg, rpg, apg, bpg, foto, team } = req.body;
+		const newPlayer = new Player({
+			fullName: fullName,
+			position: position,
+			price: price,
+			number: number,
+			weight: weight,
+			height: height,
+			age: age,
+			mpg: mpg,
+			fg: fg,
+			threePt: threePt,
+			ft: ft,
+			ppg: ppg,
+			rpg: rpg,
+			apg: apg,
+			bpg: bpg,
+			foto: foto, 
+			team: team
+		});
+		await newPlayer.save();
+		res.send(newPlayer);
+		
+	} catch (error) {
+		console.log('Unexpected error ->', error);
+		res.send(error);
+	}
+});
+router.delete('/:id', validateObjectId, async (req,res) => {
+	const playerToDelete = await Player.findByIdAndDelete(req.params.id);
+
+	if(!playerToDelete){
+		return res.status(400).send('The player with given ID was not found');
+	}
+	res.send("Player was successfully removed from database");
+});
 router.get('/all/count', async (req, res) => {
 	let count = await Player.countDocuments({});
 	res.json(count);

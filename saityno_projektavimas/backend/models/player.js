@@ -16,6 +16,11 @@ const playerSchema = new Schema({
         required: true,
         maxlength: 5
     },
+    price: {
+        type: Number,
+        required: false,
+        default: 15000
+    },
     number: {
         type: String,
         required: true
@@ -90,6 +95,7 @@ function validatePlayer(player){
         ft: Joi.number().optional(),
         ppg: Joi.number().optional(),
         rpg: Joi.number().optional(),
+        price: Joi.number().optional(),
         bpg: Joi.number().optional(),
         apg: Joi.number().optional(),
         foto: Joi.string().optional(),

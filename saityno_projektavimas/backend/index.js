@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const config = require('config');
 const mongoose = require('mongoose');
@@ -17,14 +18,19 @@ app.use('/customteam', customTeamRouter);
 app.use('/auth', authRoute);
 
 const PORT = process.env.PORT || config.get('port');
-// connect to db
+
 const db = config.get('db');
 mongoose.set('useCreateIndex', true);
+const uri = `mongodb+srv://nbaadmin:${process.env.PASSWORD}@nbafantasy.auhyl.mongodb.net/nba?retryWrites=true&w=majority`;
 mongoose.connect(
-    db,
+    uri || db,
     { useNewUrlParser: true, useUnifiedTopology: true },
     () => {
         console.log('Successfully connected to database');
     }
 );
+mongoose.connection.on('connected', () => {
+    console.log('Connected to cluster');
+});
+
 app.listen(PORT, console.log(`Server is running on port ${PORT}`));
