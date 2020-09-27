@@ -64,9 +64,9 @@ router.post('/', async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
         await user.save();
-        res.send(user);
+        res.send(200);
     } catch (error) {
-        console.log('Occured eror', error);
+        res.send(400);
     }
 });
 

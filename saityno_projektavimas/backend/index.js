@@ -16,6 +16,9 @@ app.use('/players', playersRouter);
 app.use('/user', usersRouter);
 app.use('/customteam', customTeamRouter);
 app.use('/auth', authRoute);
+app.use('/*', (req, res) => {
+    res.send(400);
+})
 
 const PORT = process.env.PORT || config.get('port');
 
