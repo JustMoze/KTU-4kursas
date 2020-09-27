@@ -49,7 +49,7 @@ const favSchema = new Schema({
 const CustomTeam = mongoose.model('Custom_Team', favSchema);
 function validateCustomTeam(team) {
 	const schema = Joi.object({
-		ownerId: Joi.string().required(),
+		ownerId: Joi.string().optional(),
 		players: Joi.array().items(
 			Joi.object({
 				_id: Joi.string().required(),			

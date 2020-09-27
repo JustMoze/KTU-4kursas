@@ -1,3 +1,4 @@
+USER
 // add user
 POST
 url - http://localhost:3700/user/
@@ -10,26 +11,59 @@ url - http://localhost:3700/user/
     "username": "Playof admin"
 }
 // get users in pages
-GET  
-url - url - http://localhost:3700/user/1 -/1 page number
+GET
+url - http://localhost:3700/user/1 -/1 page number
+
+// get user by id
+GET
+url - http://localhost:3700/user/id/5f707f08489fc425a0a9c724
 
 // augment user's bank size
-PATCH 
+PATCH
 url - http://localhost:3700/user/giveextra/5f707f08489fc425a0a9c724/150000
 
-// add custom team 
-POST 
-url - http://localhost:3700/customteam
+
+TEAM
+// Get all current NBA teams
+GET
+url - http://localhost:3700/teams
+
+// Get team by id
+GET
+url - http://localhost:3700/teams/5f6249e67b32ff38e055e85e
+
+CUSTOM TEAM
+// create user's custom team
+POST
+url - http://localhost:3700/customteam/5f6b240fd432c92a30ca5159 -> 5f6b240fd432c92a30ca5159 is user's, that we want to add custom team, id.
 {
-    "ownerId": "5f6b240fd432c92a30ca5159",
     "logo": "https://zalgiris.lt/wp-content/uploads/2015/11/cropped-favicon.png",
     "name": "Zalgiris Kaunas"
 }
+// get user's custom team data
+GET
+url - http://localhost:3700/customteam/5f6b240fd432c92a30ca5159
 
+// Delete user's custom team
+DELETE
+url - http://localhost:3700/customteam/5f6b240fd432c92a30ca5159
+
+HIERARCHIJA
+// puts players into custom team
+PATCH
+url - http://localhost:3700/customteam/5f6b240fd432c92a30ca5159/5f62427b92c3b8345482f60b -> 1st param is custom team id, 2nd - player's you want to add id
+
+// remove specific player from custom team
+PUT
+url - http://localhost:3700/customteam/5f6b240fd432c92a30ca5159/5f62427b92c3b8345482f60b -> 1st param is custom team id, 2nd - player's you want to add id
+Response - 200 (ok) or 404
+
+PLAYER
 // add player
-
+POST
+url - http://localhost:3700/players
 {
-    "fullName": "Perry Hudges",
+    "fullName": "Dwayne Jognson",
     "position": "pg/sg",
     "price": 27005400,
     "number": "#27",
@@ -37,13 +71,44 @@ url - http://localhost:3700/customteam
     "height": "186 cm / 6.0",
     "age": "22 years",
     "mpg": 32,
-    "fg": 48.7, 
+    "fg": 48.7,
     "threePt": 43.2,
     "ft": 83.05,
     "ppg": 27.5,
-    "rpg": 5.0, 
+    "rpg": 5.0,
     "apg": 11.9,
     "bpg": 0.7,
-    "foto": "https://images.dailyhive.com/20171017154435/Screen-Shot-2017-10-17-at-6.42.43-PM.png",
+    "foto": "https://images-na.ssl-images-amazon.com/images/I/41NeDBzKq7L._AC_.jpg",
     "team": "LAC"
 }
+// Get players in pages
+GET
+url - http://localhost:3700/players/1 -> param - page number
+
+// Get all players in database
+GET
+url - http://localhost:3700/players/filter/all
+
+// delte specific player
+DELETE
+url - http://localhost:3700/players/5f708d72b7bf5227e00371d2 -> PARAM - player's id
+
+// Get players by name
+GET
+url - http://localhost:3700/players/name/<nameQuery>. EXAMPLE -  http://localhost:3700/players/name/Paul
+
+// Get number of players in database
+GET
+url - http://localhost:3700/players/all/count
+
+// Get all players from specific team's abbreviation
+GET
+url - http://localhost:3700/players/team/GSW -> PARAM -> team's abbreviation
+
+//Get players from specific team by team's id
+GET
+URL - http://localhost:3700/players/teamid/5f6249e67b32ff38e055e867 -> PARAM -> team's id
+
+// Get specific player
+GET
+URL - http://localhost:3700/players/id/5f62427b92c3b8345482f62a

@@ -4,11 +4,11 @@ const express = require('express');
 const validateObjectId = require('../middleware/validateObjectId');
 const router = express.Router();
 
-router.post('/:id', async (req, res) => {
+router.post('/:id', validateObjectId, async (req, res) => {
 	const { error } = validateCustomTeam(req.body);
 	const { id } = req.params;
 	if (error) {
-		return res.status(400).send(error.details[0].message);
+		return res.sendStatus(400);
 	}
 	try {
 		let customTeam = new CustomTeam({
@@ -26,6 +26,7 @@ router.post('/:id', async (req, res) => {
 		await customTeam.save();
 		res.send(customTeam);
 	} catch (error) {
+		res.sendStatus(400);
 		throw new Error(error);
 	}
 });
@@ -43,18 +44,21 @@ router.delete('/:id', validateObjectId, async (req, res) => {
         await CustomTeam.findOneAndRemove({ownerId: id}, {useFindAndModify: false});
         res.send('Team was successfully deleted.');
     } catch (error) {
-        res.send(error);
+        res.sendStatus(404);
     }
 });
 router.put('/:id/:playerId', validateObjectId, async (req, res) => {
     let { id, playerId } = req.params;
     try {
-        let teamToUpdate = await CustomTeam.findOne({ownerId: id});
+		let teamToUpdate = await CustomTeam.findOne({ownerId: id});
+		if(!teamToUpdate){
+			res.send(400);
+		}
         teamToUpdate.players.pull({_id: playerId});
         teamToUpdate.save();
-        res.send(teamToUpdate);
+        res.sendStatus(200);
     } catch (error) {
-        res.send(error);
+        res.sendStatus(404);
     }
 });
 
@@ -67,7 +71,8 @@ router.patch('/:id/:playerId', validateObjectId, async (req, res) => {
 		teamToPatch.save();
         res.send(teamToPatch);
 	} catch (error) {
-        res.send(error);
+        res.sendStatus(404);
     }
 });
+
 module.exports = router;

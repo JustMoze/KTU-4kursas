@@ -1,6 +1,8 @@
 const { Player, validatePlayer } = require('../models/player');
 const express = require('express');
 const validateObjectId = require('../middleware/validateObjectId');
+const { Team } = require('../models/team');
+const e = require('express');
 
 
 const router = express.Router();
@@ -23,7 +25,10 @@ router.get('/:page', (req, res) => {
 		throw new Error(ex);
 	}
 });
-
+router.get("/filter/all", async (req, res) => {
+	const allPlayers = await Player.find({});
+	res.send(allPlayers);
+});
 router.post('/', async (req, res) => {
 	const {error} = validatePlayer(req.body);
 	if(error){
@@ -86,10 +91,22 @@ router.get('/team/:name', async (req, res) => {
 	}
 });
 
+router.get('/teamid/:id', validateObjectId, async (req, res) => {
+	let {id} = req.params;
+	let team = await Team.findById(id);
+	if(team){
+		let abbreviation = team.abbreviation;
+		let players = await Player.find({team: abbreviation});
+		res.send(players);
+	} else res.sendStatus(400);
+});
+
 router.get('/id/:id', validateObjectId, async (req, res) => {
 	let { id } = req.params;
 	let player = await Player.findById(id);
-	res.send(player);
+	if(player){
+		res.send(player);
+	} else res.status(404).send('The player with given ID was not found');
 });
 
 router.get('/name/:name', async (req, res) => {

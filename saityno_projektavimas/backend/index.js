@@ -7,7 +7,9 @@ const router = require('./routes/index');
 const playersRouter = require('./routes/player');
 const usersRouter = require('./routes/user');
 const customTeamRouter = require('./routes/customTeam');
+const teamRouter = require('./routes/team');
 const authRoute = require('./routes/auth');
+const path = require('path');
 
 
 app.use(express.json());
@@ -15,9 +17,10 @@ app.use('/', router);
 app.use('/players', playersRouter);
 app.use('/user', usersRouter);
 app.use('/customteam', customTeamRouter);
+app.use('/teams', teamRouter);
 app.use('/auth', authRoute);
 app.use('/*', (req, res) => {
-    res.send(400);
+    res.sendStatus(400);
 })
 
 const PORT = process.env.PORT || config.get('port');
