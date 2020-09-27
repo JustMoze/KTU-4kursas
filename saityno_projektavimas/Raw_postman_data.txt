@@ -1,6 +1,27 @@
-// add team
+// add user
+POST
+url - http://localhost:3700/user/
+
 {
-    "ownerId": "5f63209a346a64145cd44a45",
+    "name": "Studentas2",
+    "surname": "KTU",
+    "email": "ktu1@gmail.com",
+    "password": "yourpassword",
+    "username": "Playof admin"
+}
+// get users in pages
+GET  
+url - url - http://localhost:3700/user/1 -/1 page number
+
+// augment user's bank size
+PATCH 
+url - http://localhost:3700/user/giveextra/5f707f08489fc425a0a9c724/150000
+
+// add custom team 
+POST 
+url - http://localhost:3700/customteam
+{
+    "ownerId": "5f6b240fd432c92a30ca5159",
     "logo": "https://zalgiris.lt/wp-content/uploads/2015/11/cropped-favicon.png",
     "name": "Zalgiris Kaunas"
 }
