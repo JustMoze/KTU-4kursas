@@ -4,11 +4,11 @@ const express = require('express');
 const validateObjectId = require('../middleware/validateObjectId');
 const router = express.Router();
 
-router.post('/:id', async (req, res) => {
+router.post('/:id', validateObjectId, async (req, res) => {
 	const { error } = validateCustomTeam(req.body);
 	const { id } = req.params;
 	if (error) {
-		return res.status(400).send(error.details[0].message);
+		return res.status(400);
 	}
 	try {
 		let customTeam = new CustomTeam({
@@ -49,7 +49,10 @@ router.delete('/:id', validateObjectId, async (req, res) => {
 router.put('/:id/:playerId', validateObjectId, async (req, res) => {
     let { id, playerId } = req.params;
     try {
-        let teamToUpdate = await CustomTeam.findOne({ownerId: id});
+		let teamToUpdate = await CustomTeam.findOne({ownerId: id});
+		if(!teamToUpdate){
+			res.send(400);
+		}
         teamToUpdate.players.pull({_id: playerId});
         teamToUpdate.save();
         res.send(teamToUpdate);
@@ -70,4 +73,5 @@ router.patch('/:id/:playerId', validateObjectId, async (req, res) => {
         res.send(error);
     }
 });
+
 module.exports = router;

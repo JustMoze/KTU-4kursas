@@ -23,7 +23,6 @@ router.get('/:page', (req, res) => {
 		throw new Error(ex);
 	}
 });
-
 router.post('/', async (req, res) => {
 	const {error} = validatePlayer(req.body);
 	if(error){
@@ -89,7 +88,9 @@ router.get('/team/:name', async (req, res) => {
 router.get('/id/:id', validateObjectId, async (req, res) => {
 	let { id } = req.params;
 	let player = await Player.findById(id);
-	res.send(player);
+	if(player){
+		res.send(player);
+	} else res.status(404).send('The player with given ID was not found');
 });
 
 router.get('/name/:name', async (req, res) => {
