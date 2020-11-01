@@ -10,9 +10,13 @@ const customTeamRouter = require('./routes/customTeam');
 const teamRouter = require('./routes/team');
 const authRoute = require('./routes/auth');
 const path = require('path');
-
+const cors = require("cors");
+// config stuff
+require("./startup/config")();
 
 app.use(express.json());
+app.use(cors());
+
 app.use('/', router);
 app.use('/players', playersRouter);
 app.use('/user', usersRouter);
@@ -21,7 +25,7 @@ app.use('/teams', teamRouter);
 app.use('/auth', authRoute);
 app.use('/*', (req, res) => {
     res.sendStatus(400);
-})
+});
 
 const PORT = process.env.PORT || config.get('port');
 

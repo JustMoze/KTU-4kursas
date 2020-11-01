@@ -2,5 +2,5 @@
     "db": "mongodb://localhost/nba",
     "port": "3700",
     "jwtPrivateKey": "unsecureKey",
-    "requiresAuth": false
+    "requiresAuth": true
 }

@@ -3,6 +3,8 @@ const express = require('express');
 const validateObjectId = require('../middleware/validateObjectId');
 const { Team } = require('../models/team');
 const e = require('express');
+const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
 
 
 const router = express.Router();
@@ -29,7 +31,7 @@ router.get("/filter/all", async (req, res) => {
 	const allPlayers = await Player.find({});
 	res.send(allPlayers);
 });
-router.post('/', async (req, res) => {
+router.post('/', [auth, admin] ,async (req, res) => {
 	const {error} = validatePlayer(req.body);
 	if(error){
 		return res.status(400).send(error.details[0].message);
@@ -64,7 +66,7 @@ router.post('/', async (req, res) => {
 		res.send(error);
 	}
 });
-router.delete('/:id', validateObjectId, async (req,res) => {
+router.delete('/:id', [validateObjectId, auth, admin], async (req,res) => {
 	const playerToDelete = await Player.findByIdAndDelete(req.params.id);
 
 	if(!playerToDelete){

@@ -2,6 +2,9 @@ const { User, validateUser } = require('../models/user');
 const express = require('express');
 const validateObjectId = require('../middleware/validateObjectId');
 const bcrypt = require('bcrypt');
+const admin = require('../middleware/admin');
+const _ = require("lodash");
+const auth = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -23,7 +26,7 @@ router.get('/:page', (req, res) => {
 		throw new Error(ex);
 	}
 });
-router.patch('/giveextra/:id/:bankSize', validateObjectId, async (req, res) => {
+router.patch('/giveextra/:id/:bankSize', [validateObjectId, auth, admin], async (req, res) => {
     let {bankSize, id} = req.params;
     if(!isNaN(bankSize)){
         try {
@@ -37,7 +40,7 @@ router.patch('/giveextra/:id/:bankSize', validateObjectId, async (req, res) => {
         }     
     } else res.send("Bad format");
 });
-router.get('/id/:id', validateObjectId, async (req, res) => {
+router.get('/id/:id', [validateObjectId, auth, admin], async (req, res) => {
     let {id} = req.params;
     try {
         let user = await User.findById(id);
@@ -59,12 +62,18 @@ router.post('/', async (req, res) => {
             surname: req.body.surname,
             email: req.body.email,
             username: req.body.username,
-            password: req.body.password,         
+            password: req.body.password,
+            isAdmin: req.body.isAdmin ? req.body.isAdmin : false         
         });
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
+        console.log("user to save -> ", user);
         await user.save();
-        res.send(200);
+
+        const token =  user.generateAuthToken();
+        console.log("token -> ", token);
+        res.header("x-auth-token", token)
+        .send(_.pick(user, ["_id", "name", "email", "isAdmin"]));
     } catch (error) {
         res.send(400);
     }
