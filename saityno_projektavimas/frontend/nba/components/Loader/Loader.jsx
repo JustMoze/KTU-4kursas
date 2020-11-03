@@ -5,7 +5,7 @@ import colors from '../../styles/globalStyle.module.scss';
 
 export default function Loader({size}) {
     return (
-        <ReactLoading type="spin" color={colors.NBA_blue} height={size} width={size} />
+        <ReactLoading type="spin" color={colors.NBA_red} height={size} width={size} />
     )
 }
 

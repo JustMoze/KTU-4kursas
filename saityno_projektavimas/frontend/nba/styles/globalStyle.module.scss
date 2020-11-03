@@ -4,6 +4,7 @@ $NBA_red: #c80f2e;
 $NBA_white: #e3e3e2;
 $NBA_dark: #051c2d;
 $NBA_grey: #d4d7dd;
+$NBA_disable: #7e7474;
 
 // ---------- nba fonts ---------- //
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
@@ -16,4 +17,5 @@ $roboto_m500: 'Roboto', sans-serif;
   NBA_dark: $NBA_dark;
   NBA_grey: $NBA_grey;
   roboto_m500: $roboto_m500;
+  NBA_disable: $NBA_disable;
 }
