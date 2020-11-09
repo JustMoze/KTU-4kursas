@@ -16,6 +16,10 @@ export default function Home({ teams }) {
   const [loaded, setLoaded] = useState(false)
   const [nbaTeams, setNbaTeams] = useState([])
   const [currentTeam, setCurrentTeam] = useState(0)
+  const [user, setUser] = useState({})
+
+  // -------------- authentification ----------------------
+  const [openAuthModal, setOpenAuthModal] = useState(false)
 
   const HandleCurrentTeamChange = (index) => {
     setCurrentTeam(nbaTeams[index]._id)
@@ -31,6 +35,10 @@ export default function Home({ teams }) {
       setLoaded(true)
     }
   }, [teams])
+
+  const handleSubmit = (obj) => {
+    console.log('Object -> ', object)
+  }
   return (
     <>
       <Head>
@@ -48,7 +56,14 @@ export default function Home({ teams }) {
         <link rel="icon" href="/nba_1.png" />
       </Head>
       <div style={{ width: '100%', height: '100%', overflowY: 'scroll' }}>
-        <Navbar />
+        <Navbar
+          handleOpen={() => {
+            setOpenAuthModal(true)
+          }}
+          user={user}
+          open={openAuthModal}
+          handleClose={() => setOpenAuthModal(false)}
+        />
         {loaded ? (
           <div style={{ paddingTop: 20, overflowY: 'scroll' }}>
             <>

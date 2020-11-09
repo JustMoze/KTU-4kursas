@@ -10,7 +10,6 @@ import Circular from '../Charts/Circular'
 import Histogram from '../Charts/Group'
 
 const Info = ({ team_id }) => {
-  console.log('team id -> ', team_id)
   const [team, setTeam] = useState()
   const [loading, setLoading] = useState(true)
   const [openSnackbar, setSnackbarOpen] = useState(false)
@@ -20,7 +19,6 @@ const Info = ({ team_id }) => {
     fetch(`${config.API}teams/${team_id}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log('data -> ', data)
         setTeam(data)
         setTeamsStats(ConfigureStatsObject(data))
         setLoading(false)
@@ -31,7 +29,6 @@ const Info = ({ team_id }) => {
         setLoading(false)
       })
   }, [team_id])
-  console.log('team stats in info', teamStats)
   const ConfigureStatsObject = (data) => {
     return [
       {
@@ -129,10 +126,14 @@ const Info = ({ team_id }) => {
                   style={{
                     paddingLeft: 0,
                     paddingRight: 0,
+                    minHeight: 450,
                     position: 'relative',
                   }}
                 >
-                  <PlayersContainer abbreviation={team.abbreviation} />
+                  <PlayersContainer
+                    abbreviation={team.abbreviation}
+                    color={team.color}
+                  />
                 </Col>
               </Row>
             </>

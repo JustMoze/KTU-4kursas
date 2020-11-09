@@ -14,7 +14,7 @@ const CoverContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px 50px 30px;
+  border-radius: 15px 0px 50px 50px;
 `
 const StyledRow = styled.div`
   display: flex;
