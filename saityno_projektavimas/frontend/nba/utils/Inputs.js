@@ -4,7 +4,6 @@ export const register = [
     value: 'Mykolas',
     type: 'text',
     validation: {
-      email: false,
       min: 1,
       max: 255,
     },
@@ -14,7 +13,6 @@ export const register = [
     value: 'Motiejus',
     type: 'text',
     validation: {
-      email: false,
       min: 1,
       max: 255,
     },
@@ -24,7 +22,6 @@ export const register = [
     value: 'Mykolas',
     type: 'text',
     validation: {
-      email: false,
       min: 5,
       max: 255,
     },
@@ -43,7 +40,6 @@ export const register = [
     value: 'Password',
     type: 'password',
     validation: {
-      email: false,
       min: 7,
       max: 255,
     },
@@ -55,7 +51,7 @@ export const login = [
     value: 'mykolas@gmail.com',
     type: 'email',
     validation: {
-      email: false,
+      email: true,
     },
   },
   {
@@ -63,7 +59,6 @@ export const login = [
     value: 'Password',
     type: 'password',
     validation: {
-      email: false,
       min: 7,
       max: 255,
     },
@@ -78,9 +73,17 @@ export function validateEmail(email) {
 export function validateLength(min, max, input, name) {
   let errorArr = []
   if (input.length < min) {
-    errorArr.push(`${name} msut be longer then ${min - 1} characters`)
+    errorArr.push(
+      `${UpperCaseLetter(name)} must be longer then ${min - 1} characters`
+    )
   } else if (input.length > max) {
-    errorArr.push(`${name} msut be longer then ${min - 1} characters`)
+    errorArr.push(
+      `${UpperCaseLetter(name)} must be longer then ${min - 1} characters`
+    )
   }
   return errorArr
+}
+
+const UpperCaseLetter = (string) => {
+  return string.slice(0, 1).toUpperCase() + string.slice(1, string.length)
 }

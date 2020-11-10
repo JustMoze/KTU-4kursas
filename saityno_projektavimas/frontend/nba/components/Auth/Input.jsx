@@ -2,31 +2,32 @@ import React, { useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 
-function Input({ handleChange, error, message, name, ...props }) {
-  const WhiteBorderTextField = styled(TextField)`
-    & label.Mui-focused {
-      color: ${error ? 'red' : 'green'};
-    }
-    & label.Mui {
-      color: ${error ? 'red' : 'green'};
-    }
-    & .MuiOutlinedInput-root {
-      &.Mui-focused fieldset {
-        border-color: ${error ? 'red' : 'green'};
-      },
-    }
-    & .MuiOutlinedInput-root {
-      & fieldset {
-        border-color: ${error ? 'red' : 'green'};
-      },
-    }
+const WhiteBorderTextField = styled(TextField)`
+  & label.Mui-focused {
+    color: ${(props) => (props.error ? 'red' : 'green')};
+  }
+  & label.Mui {
+    color: ${(props) => (props.error ? 'red' : 'green')};
+  }
+  & .MuiOutlinedInput-root {
+    &.Mui-focused fieldset {
+      border-color: ${(props) => (props.error ? 'red' : 'green')};
+    },
+  }
+  & .MuiOutlinedInput-root {
+    & fieldset {
+      border-color: ${(props) => (props.error ? 'red' : 'green')};
+    },
+  }
 
-    & p.MuiFormHelperText-root {
-            color: ${error ? 'red' : '#323232'}
-        }
-    }
-  `
+  & p.MuiFormHelperText-root {
+          color: ${(props) => (props.error ? 'red' : '#323232')}
+      }
+  }
+`
+function Input({ handleChange, error, message, name, ...props }) {
   const ConfigureName = (name) => {
+    name = name.slice(name.indexOf('_') + 1, name.length)
     return name.charAt(0).toUpperCase() + name.slice(1)
   }
   return (

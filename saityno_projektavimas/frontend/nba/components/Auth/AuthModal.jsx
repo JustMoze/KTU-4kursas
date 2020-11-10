@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Button from '@material-ui/core/Button'
 import Modal from '@material-ui/core/Modal'
 import Input from './Input'
@@ -7,7 +7,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import { RiLoginCircleLine } from 'react-icons/ri'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { NBA_blue } from '../../styles/globalStyle.module.scss'
-import { login, register } from '../../utils/Inputs'
+import { login, register, validateLength } from '../../utils/Inputs'
+import { NBA_grey } from '../../styles/globalStyle.module.scss'
+import has from 'lodash/has'
+import { validateEmail } from './../../utils/Inputs'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -22,12 +25,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }))
-
-// const InputContainer = styled.div`
-//   width: 100%;
-//   padding-right: 20px;
-//   padding-left: 20px;
-// `
 
 const ModalContainer = styled.div`
   width: 100%;
@@ -48,6 +45,7 @@ const CenterContainer = styled.div`
 `
 const CustomModal = styled(Modal)`
   position: absolute;
+  background-color: ${NBA_grey};
   width: 40vw;
   height: 60vh;
   min-height: 500px;
@@ -66,21 +64,52 @@ const IconContainer = styled.div`
   min-height: 25px;
 `
 
-const AuthModal = ({ open, handleClose, type }) => {
+const AuthModal = ({
+  open,
+  handleClose,
+  type,
+  user,
+  handleChange,
+  handleSubmit,
+}) => {
   const classes = useStyles()
-  const [allowSubmit, setAllowSubmit] = useState(false)
   const inputs = type.toLowerCase() === 'register' ? register : login
-  const [user, setUser] = useState({})
+  var errArr = {}
 
   const ValidateInput = (input) => {
-    return false
+    let { validation } = input
+    if (has(validation, 'email')) {
+      if (!validateEmail(user[`${input.name}`])) {
+        errArr[`${input.name}`] = 1
+        return 'Email does not match format'
+      } else {
+        errArr[`${input.name}`] = 0
+      }
+    } else if (has(validation, 'min') && has(validation, 'max')) {
+      let { min, max } = validation
+      let errArrs = validateLength(min, max, user[`${input.name}`], input.name)
+      if (errArrs.length > 0) {
+        errArr[`${input.name}`] = 1
+        return errArrs[0]
+      } else {
+        errArr[`${input.name}`] = 0
+      }
+    }
+    if (errArr[`${input.name}`] === 0) {
+      return ''
+    }
   }
-
-  const HandleUserCredentialChange = (e) => {
-    let { value, name } = e.target
-    setUser({ ...user, [name]: value })
+  const AllowSubmit = () => {
+    let counter = 0
+    for (let prop in errArr) {
+      if (errArr[prop] === 0) {
+        counter++
+      }
+    }
+    if (counter === inputs.length) {
+      return true
+    } else return false
   }
-
   return (
     <CustomModal
       open={open}
@@ -102,11 +131,11 @@ const AuthModal = ({ open, handleClose, type }) => {
             return (
               <Input
                 key={index}
-                error={ValidateInput(input)}
-                message="Need to fill it"
-                name={input.name}
+                error={ValidateInput(input) === '' ? false : true}
+                message={ValidateInput(input)}
+                name={`${type}_${input.name}`}
                 value={user[`${input.name}`]}
-                handleChange={(e) => HandleUserCredentialChange(e)}
+                handleChange={(e) => handleChange(e)}
                 type={input.type}
               />
             )
@@ -123,7 +152,8 @@ const AuthModal = ({ open, handleClose, type }) => {
               variant="contained"
               size="small"
               className={classes.button}
-              disabled={!allowSubmit}
+              onClick={() => handleSubmit(type)}
+              disabled={!AllowSubmit()}
               startIcon={<RiLoginCircleLine size={25} />}
             >
               Save

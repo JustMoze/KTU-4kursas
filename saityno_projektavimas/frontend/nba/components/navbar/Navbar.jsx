@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import NavLink from './NavLink'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
@@ -41,13 +41,8 @@ const LogoContainer = styled.div`
     padding-top: 2vh;
   }
 `
-export default function Navbar({
-  open,
-  handleOpen,
-  handleClose,
-  user,
-  handleChange,
-}) {
+export default function Navbar({ handleOpen, handleLinkClick, ...rest }) {
+  const [authName, setAuthName] = useState('')
   const router = useRouter()
   return (
     <>
@@ -63,18 +58,26 @@ export default function Navbar({
           />
         </LogoContainer>
         <LinkContainer>
-          <NavLink handleClick={handleOpen} name="Login" />
-          <NavLink to="/login" name="Register" />
+          <NavLink
+            handleClick={() => {
+              setAuthName('login')
+              handleLinkClick('login')
+              handleOpen()
+            }}
+            name="Login"
+          />
+          <NavLink
+            handleClick={() => {
+              setAuthName('register')
+              handleLinkClick('register')
+              handleOpen()
+            }}
+            name="Register"
+          />
           <NavLink to="/team" name="About" />
         </LinkContainer>
       </Container>
-      <AuthModal
-        open={open}
-        handleClose={handleClose}
-        type="register"
-        user={user}
-        handleChange={handleChange}
-      />
+      <AuthModal type={authName} {...rest} />
     </>
   )
 }

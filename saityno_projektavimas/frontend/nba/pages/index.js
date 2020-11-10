@@ -5,6 +5,8 @@ import dynamic from 'next/dynamic'
 import { GetAllTeams } from './../service/teamService'
 import Loader from '../components/Loader/Loader'
 import Info from '../components/Team/Info'
+import has from 'lodash/has'
+import { validateEmail, validateLength } from './../utils/Inputs'
 // import Slider from '../components/Slider/Slider'
 
 const DynamicComponentWithNoSSR = dynamic(
@@ -16,10 +18,21 @@ export default function Home({ teams }) {
   const [loaded, setLoaded] = useState(false)
   const [nbaTeams, setNbaTeams] = useState([])
   const [currentTeam, setCurrentTeam] = useState(0)
-  const [user, setUser] = useState({})
-
+  // register && login
+  const [user, setUser] = useState({
+    name: '',
+    surname: '',
+    username: '',
+    email: '',
+    password: '',
+  })
+  const [loginUser, setLoginUser] = useState({
+    email: '',
+    password: '',
+  })
   // -------------- authentification ----------------------
   const [openAuthModal, setOpenAuthModal] = useState(false)
+  const [currentAuthMethod, setCurrentAuthMethod] = useState('')
 
   const HandleCurrentTeamChange = (index) => {
     setCurrentTeam(nbaTeams[index]._id)
@@ -27,6 +40,27 @@ export default function Home({ teams }) {
 
   const HandleCardClick = (id) => {
     console.log('team id -> ', id)
+  }
+
+  const HandleUserCredentialChange = (e) => {
+    let { value, name } = e.target
+    let key = name.slice(0, name.indexOf('_')).toLowerCase()
+    name = GetName(name)
+    switch (key) {
+      case 'register':
+        setUser({ ...user, [name]: value })
+        break
+      case 'login':
+        setLoginUser({ ...loginUser, [name]: value })
+        break
+      default:
+        break
+    }
+  }
+
+  const GetName = (name) => {
+    let index = name.indexOf('_')
+    return name.slice(index + 1, name.length)
   }
   useEffect(() => {
     if (teams != undefined && teams.length > 0) {
@@ -36,8 +70,18 @@ export default function Home({ teams }) {
     }
   }, [teams])
 
-  const handleSubmit = (obj) => {
-    console.log('Object -> ', object)
+  const HanldeSubmit = (type) => {
+    switch (type) {
+      case 'login':
+        console.log('object to return ', loginUser)
+        break
+      default:
+        console.log('object to return ', user)
+        break
+    }
+  }
+  const handleLinkClick = (linkName) => {
+    setCurrentAuthMethod(linkName)
   }
   return (
     <>
@@ -57,12 +101,15 @@ export default function Home({ teams }) {
       </Head>
       <div style={{ width: '100%', height: '100%', overflowY: 'scroll' }}>
         <Navbar
+          handleChange={HandleUserCredentialChange}
+          handleClose={() => setOpenAuthModal(false)}
           handleOpen={() => {
             setOpenAuthModal(true)
           }}
-          user={user}
           open={openAuthModal}
-          handleClose={() => setOpenAuthModal(false)}
+          handleLinkClick={handleLinkClick}
+          handleSubmit={HanldeSubmit}
+          user={currentAuthMethod === 'register' ? user : loginUser}
         />
         {loaded ? (
           <div style={{ paddingTop: 20, overflowY: 'scroll' }}>

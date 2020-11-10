@@ -8,6 +8,7 @@ import Loader from '../Loader/Loader'
 import AppSnackbar from '../Snackbar/Snackbar'
 import Circular from '../Charts/Circular'
 import Histogram from '../Charts/Group'
+import SiteTable from '../Charts/SiteTable'
 
 const Info = ({ team_id }) => {
   const [team, setTeam] = useState()
@@ -130,9 +131,13 @@ const Info = ({ team_id }) => {
                     position: 'relative',
                   }}
                 >
-                  <PlayersContainer
+                  {/* <PlayersContainer
                     abbreviation={team.abbreviation}
                     color={team.color}
+                  /> */}
+                  <SiteTable
+                    color={team.color}
+                    abbreviation={team.abbreviation}
                   />
                 </Col>
               </Row>
