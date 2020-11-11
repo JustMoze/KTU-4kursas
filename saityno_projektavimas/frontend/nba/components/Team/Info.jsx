@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { NBA_dark } from '../../styles/globalStyle.module.scss'
+import { NBA_white } from '../../styles/globalStyle.module.scss'
 import { Row, Col } from 'react-grid-system'
-import PlayersContainer from './PlayersContainer'
 import config from '../../config.json'
 import Cover from './Cover'
 import Loader from '../Loader/Loader'
@@ -95,6 +94,16 @@ const Info = ({ team_id }) => {
                   position: 'relative',
                 }}
               >
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    height: 52,
+                    width: '100%',
+                    backgroundColor: team.color,
+                  }}
+                ></div>
                 <Col
                   sm={12}
                   md={6}
@@ -106,13 +115,6 @@ const Info = ({ team_id }) => {
                   }}
                 >
                   <Cover team={team} />
-                  <Circular
-                    winP={team.winP}
-                    record={team.record}
-                    height={500}
-                    color={team.color}
-                    content="Win precentage %"
-                  />
                   <Histogram
                     stats={teamStats}
                     color={team.color}
@@ -131,10 +133,25 @@ const Info = ({ team_id }) => {
                     position: 'relative',
                   }}
                 >
-                  {/* <PlayersContainer
-                    abbreviation={team.abbreviation}
-                    color={team.color}
-                  /> */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 52,
+                      left: 0,
+                      width: 20,
+                      height: 100,
+                      backgroundColor: team.color,
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        borderTopLeftRadius: 12,
+                        backgroundColor: '#ffffff',
+                      }}
+                    ></div>
+                  </div>
                   <SiteTable
                     color={team.color}
                     abbreviation={team.abbreviation}

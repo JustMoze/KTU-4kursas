@@ -7,6 +7,7 @@ import Loader from '../components/Loader/Loader'
 import Info from '../components/Team/Info'
 import has from 'lodash/has'
 import { validateEmail, validateLength } from './../utils/Inputs'
+import Footer from '../components/Footer/Footer'
 // import Slider from '../components/Slider/Slider'
 
 const DynamicComponentWithNoSSR = dynamic(
@@ -30,12 +31,16 @@ export default function Home({ teams }) {
     email: '',
     password: '',
   })
+  // -------------- navbar --------------------------------
+  const [color, setColor] = useState('#000000')
+
   // -------------- authentification ----------------------
   const [openAuthModal, setOpenAuthModal] = useState(false)
   const [currentAuthMethod, setCurrentAuthMethod] = useState('')
 
   const HandleCurrentTeamChange = (index) => {
     setCurrentTeam(nbaTeams[index]._id)
+    setColor(nbaTeams[index].color)
   }
 
   const HandleCardClick = (id) => {
@@ -110,6 +115,7 @@ export default function Home({ teams }) {
           handleLinkClick={handleLinkClick}
           handleSubmit={HanldeSubmit}
           user={currentAuthMethod === 'register' ? user : loginUser}
+          color={color}
         />
         {loaded ? (
           <div style={{ paddingTop: 20, overflowY: 'scroll' }}>
@@ -137,6 +143,7 @@ export default function Home({ teams }) {
           </div>
         )}
       </div>
+      <Footer color={color} />
     </>
   )
 }

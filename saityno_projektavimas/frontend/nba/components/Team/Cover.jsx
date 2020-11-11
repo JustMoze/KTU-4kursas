@@ -9,8 +9,8 @@ const CoverContainer = styled.div`
   position: relative;
   width: 100%;
   overflow: hidden;
-  min-height: 240px;
-  height: 20%;
+  min-height: 250px;
+  height: 15%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,7 +37,7 @@ const BluredImageContainer = styled.div`
   }
   zindex: 1;
 `
-function Cover({ team: { color, logo, full_name, conference } }) {
+function Cover({ team: { color, logo, full_name, conference, record } }) {
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     if (logo) {
@@ -84,10 +84,23 @@ function Cover({ team: { color, logo, full_name, conference } }) {
               </Col>
               <Col>
                 <StyledRow style={{ marginTop: 25, zIndex: 3 }}>
-                  <RobotoM500>{full_name}</RobotoM500>
+                  <RobotoM500 style={{ fontSize: 40 }}>{full_name}</RobotoM500>
                 </StyledRow>
                 <StyledRow style={{ marginBottom: 10, zIndex: 3 }}>
-                  <RobotoM400>Conference: {conference}</RobotoM400>
+                  <RobotoM400 style={{ fontSize: 25 }}>
+                    Conference: {conference}
+                  </RobotoM400>
+                </StyledRow>
+                <StyledRow>
+                  <RobotoM400
+                    style={{
+                      textDecoration: 'underline',
+                      fontStyle: 'italic',
+                      fontSize: 22,
+                    }}
+                  >
+                    {record}
+                  </RobotoM400>
                 </StyledRow>
               </Col>
             </Row>

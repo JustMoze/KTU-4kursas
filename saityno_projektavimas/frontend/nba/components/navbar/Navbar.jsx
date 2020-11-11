@@ -7,7 +7,7 @@ import './style.module.scss'
 import AuthModal from './../Auth/AuthModal'
 
 const Container = styled.div`
-  background-color: ${NBA_blue};
+  background-color: ${(props) => props.color};
   height: 10vh;
   min-height: 80px;
   width: 100vw;
@@ -41,12 +41,17 @@ const LogoContainer = styled.div`
     padding-top: 2vh;
   }
 `
-export default function Navbar({ handleOpen, handleLinkClick, ...rest }) {
+export default function Navbar({
+  handleOpen,
+  handleLinkClick,
+  color,
+  ...rest
+}) {
   const [authName, setAuthName] = useState('')
   const router = useRouter()
   return (
     <>
-      <Container>
+      <Container color={color}>
         <LogoContainer
           onClick={() => {
             router.push('/')

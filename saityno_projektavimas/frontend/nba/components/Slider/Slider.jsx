@@ -48,8 +48,8 @@ const RightArrContainer = styled.div`
   height: '100%';
 `
 const ImageContainer = styled.div`
-  height: 50vh;
-  width: 25vw;
+  height: 60vh;
+  width: 30vw;
   cursor: pointer;
 `
 const ArrowsContainer = styled.div`
@@ -153,7 +153,7 @@ const Slider = ({ teams, handleClick, handleChange }) => {
               >
                 <RiArrowLeftSLine
                   size={80}
-                  color={leftDisable ? NBA_disable : NBA_dark}
+                  color={leftDisable ? NBA_disable : '#ffffff'}
                   style={{ cursor: leftDisable ? null : 'pointer', zIndex: 2 }}
                 />
               </ArrowsContainer>
@@ -166,7 +166,7 @@ const Slider = ({ teams, handleClick, handleChange }) => {
               >
                 <RiArrowRightSLine
                   size={80}
-                  color={rightDisable ? NBA_disable : NBA_dark}
+                  color={rightDisable ? NBA_disable : '#ffffff'}
                   style={{
                     cursor: rightDisable ? null : 'pointer',
                     zIndex: 2,
