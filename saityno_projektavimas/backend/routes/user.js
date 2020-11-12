@@ -40,7 +40,33 @@ router.patch('/giveextra/:id/:bankSize', [validateObjectId, auth, admin], async 
         }     
     } else res.send("Bad format");
 });
-router.get('/id/:id', [validateObjectId, auth, admin], async (req, res) => {
+router.patch('/win/:id', [validateObjectId, auth], async (req, res) => {
+    let {id} = req.params;
+    try {
+        await User.findByIdAndUpdate(id, {
+            $inc: {
+                wins: 1
+            }
+        });
+        res.status(200).json({message: 'user is updated'});
+    } catch (ex) {
+        res.status(200).json({message: ex.message})
+    }
+})
+router.patch('/lose/:id', [validateObjectId, auth], async (req, res) => {
+    let {id} = req.params;
+    try {
+        await User.findByIdAndUpdate(id, {
+            $inc: {
+                losses: 1
+            }
+        });
+        res.status(200).json({message: 'user is updated'});
+    } catch (ex) {
+        res.status(200).json({message: ex.message})
+    }
+})
+router.get('/id/:id', [validateObjectId, admin], async (req, res) => {
     let {id} = req.params;
     try {
         let user = await User.findById(id);
@@ -48,8 +74,19 @@ router.get('/id/:id', [validateObjectId, auth, admin], async (req, res) => {
     } catch (error) {
         res.send(error);
     }
-})
+});
+router.get('/record/:id', [validateObjectId, auth], async (req, res) => {
+    let {id} = req.params;
+    try {
+        let user = await User.findById(id);
+        res.status(200).json({wins: user.wins, losses: user.losses});
+    } catch(ex) {
+        res.status(404).json(ex.message)
+    }
+});
+
 router.post('/', async (req, res) => {
+    console.log("req.body", req.body)
     const { error } = validateUser(req.body);
     if (error) {
         return res.status(400).send(error.details[0].message);
@@ -63,7 +100,9 @@ router.post('/', async (req, res) => {
             email: req.body.email,
             username: req.body.username,
             password: req.body.password,
-            isAdmin: req.body.isAdmin ? req.body.isAdmin : false         
+            isAdmin: req.body.isAdmin ? req.body.isAdmin : false,
+            wins: 0,
+            losses: 0         
         });
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
@@ -73,7 +112,7 @@ router.post('/', async (req, res) => {
         const token =  user.generateAuthToken();
         console.log("token -> ", token);
         res.header("x-auth-token", token)
-        .send(_.pick(user, ["_id", "name", "email", "isAdmin"]));
+        .send(_.pick(user, ["_id", "username", "email", "isAdmin"]));
     } catch (error) {
         res.send(400);
     }

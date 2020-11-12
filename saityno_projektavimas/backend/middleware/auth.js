@@ -5,14 +5,14 @@ module.exports = function (req, res, next) {
     if (!config.get('requiresAuth')) return next();
 
     const token = req.header('x-auth-token');
-    if (!token) return res.status(401).send('Access denied. No token provided');
+    if (!token) return res.status(401).json({message: 'Access denied. No token provided'});
 
     try {
         const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
-        req.user = decoded;
-        console.log('decoded user', decoded);
-        next();
+        if(decoded){
+            next();
+        }
     } catch (ex) {
-        res.send('Invalid token');
+        res.status(401).json({message: 'Invalid token'});
     }
 };

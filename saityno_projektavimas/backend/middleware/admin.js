@@ -1,11 +1,18 @@
 const config = require("config");
+const jwt = require('jsonwebtoken');
 
-module.exports = function(req, res, next) {
-  // 401 Unauthorized
-  // 403 Forbidden
-  if (!config.get("requiresAuth")) return next();
+module.exports = function (req, res, next) {
+  if (!config.get('requiresAuth')) return next();
 
-  if (!req.user.isAdmin) return res.sendStatus(403);
+  const token = req.header('x-auth-token');
+  if (!token) return res.status(401).json({message: 'Access denied. No token provided'});
 
-  next();
+  try {
+      const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
+      if(!decoded.isAdmin) return res.status(403).json({message: 'You do not have permission'})
+      next();
+  } catch (ex) {
+      res.status(401).json({message: 'Invalid token'});
+  }
 };
+

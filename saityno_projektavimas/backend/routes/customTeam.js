@@ -24,12 +24,13 @@ router.post('/:id', validateObjectId, async (req, res) => {
 			ft: 0
 		});
 		await customTeam.save();
-		res.send(customTeam);
+		res.status(200).send(customTeam);
 	} catch (error) {
 		res.sendStatus(400);
 		throw new Error(error);
 	}
 });
+// find customTeam by owner id
 router.get('/:id', validateObjectId, async (req, res) => {
 	let { id } = req.params;
 	let teamToGet = await CustomTeam.findOne({ ownerId: id });
@@ -52,7 +53,7 @@ router.put('/:id/:playerId', validateObjectId, async (req, res) => {
     try {
 		let teamToUpdate = await CustomTeam.findOne({ownerId: id});
 		if(!teamToUpdate){
-			res.send(400);
+			res.status(400).json({message: 'Error occured while getting custom team'});
 		}
         teamToUpdate.players.pull({_id: playerId});
         teamToUpdate.save();
