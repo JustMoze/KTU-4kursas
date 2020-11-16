@@ -82,7 +82,7 @@ export default function Navbar({
           <NavLink to="/team" name="About" />
         </LinkContainer>
       </Container>
-      <AuthModal type={authName} {...rest} />
+      <AuthModal type={authName} color={color} {...rest} />
     </>
   )
 }

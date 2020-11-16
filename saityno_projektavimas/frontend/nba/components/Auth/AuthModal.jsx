@@ -8,7 +8,7 @@ import { RiLoginCircleLine } from 'react-icons/ri'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { NBA_blue } from '../../styles/globalStyle.module.scss'
 import { login, register, validateLength } from '../../utils/Inputs'
-import { NBA_grey } from '../../styles/globalStyle.module.scss'
+import { NBA_grey, NBA_red } from '../../styles/globalStyle.module.scss'
 import has from 'lodash/has'
 import { validateEmail } from './../../utils/Inputs'
 
@@ -50,7 +50,6 @@ const CustomModal = styled(Modal)`
   height: 60vh;
   min-height: 500px;
   zindex: 10;
-  padding: 10px;
   border-radius: 10px;
   justify-content: center;
   align-items: center;
@@ -63,7 +62,18 @@ const IconContainer = styled.div`
   min-width: 25px;
   min-height: 25px;
 `
-
+const LogoContainer = styled.div`
+  width: 30%;
+  height: 60px;
+  justify-content: center;
+  align-self: center;
+  align-items: center;
+  display: flex;
+  margin-bottom: 25px;
+  background-color: ${(props) => props.color};
+  padding: 3px;
+  border-radius: 15px;
+`
 const AuthModal = ({
   open,
   handleClose,
@@ -71,6 +81,7 @@ const AuthModal = ({
   user,
   handleChange,
   handleSubmit,
+  color,
 }) => {
   const classes = useStyles()
   const inputs = type.toLowerCase() === 'register' ? register : login
@@ -127,9 +138,25 @@ const AuthModal = ({
           <AiFillCloseCircle size={25} />
         </IconContainer>
         <CenterContainer>
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignSelf: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <LogoContainer color={color}>
+              <img
+                src="https://ak-static.cms.nba.com/wp-content/uploads/logos/leagues/logo-nba.svg"
+                height="100%"
+              />
+            </LogoContainer>
+          </div>
           {inputs.map((input, index) => {
             return (
               <Input
+                color={color}
                 key={index}
                 error={ValidateInput(input) === '' ? false : true}
                 message={ValidateInput(input)}
@@ -151,6 +178,7 @@ const AuthModal = ({
             <Button
               variant="contained"
               size="small"
+              style={{ backgroundColor: color, color: '#ffffff' }}
               className={classes.button}
               onClick={() => handleSubmit(type)}
               disabled={!AllowSubmit()}

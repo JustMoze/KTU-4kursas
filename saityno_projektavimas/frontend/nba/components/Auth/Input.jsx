@@ -4,19 +4,19 @@ import styled from 'styled-components'
 
 const WhiteBorderTextField = styled(TextField)`
   & label.Mui-focused {
-    color: ${(props) => (props.error ? 'red' : 'green')};
+    color: ${(props) => (props.error ? 'red' : props.color)};
   }
   & label.Mui {
-    color: ${(props) => (props.error ? 'red' : 'green')};
+    color: ${(props) => (props.error ? 'red' : props.color)};
   }
   & .MuiOutlinedInput-root {
     &.Mui-focused fieldset {
-      border-color: ${(props) => (props.error ? 'red' : 'green')};
+      border-color: ${(props) => (props.error ? 'red' : props.color)};
     },
   }
   & .MuiOutlinedInput-root {
     & fieldset {
-      border-color: ${(props) => (props.error ? 'red' : 'green')};
+      border-color: ${(props) => (props.error ? 'red' : props.color)};
     },
   }
 
@@ -25,13 +25,14 @@ const WhiteBorderTextField = styled(TextField)`
       }
   }
 `
-function Input({ handleChange, error, message, name, ...props }) {
+function Input({ handleChange, error, message, name, color, ...props }) {
   const ConfigureName = (name) => {
     name = name.slice(name.indexOf('_') + 1, name.length)
     return name.charAt(0).toUpperCase() + name.slice(1)
   }
   return (
     <WhiteBorderTextField
+      color={color}
       error={error}
       label={ConfigureName(name)}
       helperText={error && message}

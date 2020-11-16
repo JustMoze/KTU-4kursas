@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Row, Col } from 'react-grid-system'
 import styled from 'styled-components'
-import { RobotoM400_underline, RobotoM500 } from '../../utils/fonts'
+import { RobotoM400, RobotoM500 } from '../../utils/fonts'
 import Loader from '../Loader/Loader'
-import { RobotoM400 } from './../../utils/fonts'
 
 const CoverContainer = styled.div`
   position: relative;
