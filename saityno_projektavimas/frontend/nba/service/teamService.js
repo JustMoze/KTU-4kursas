@@ -6,3 +6,6 @@ const teamsAPI = config.API + 'teams';
 export function GetAllTeams(){
     return http.get(teamsAPI);
 }
+export function GetTeamById(id){
+    return http.get(`${teamsAPI}/${id}`);
+}

@@ -42,7 +42,7 @@ const ArrowContainer = styled.div`
 const CustomBody = styled(Tbody)`
   margin-top: 25px;
 `
-function SiteTable({ color, abbreviation }) {
+function SiteTable({ color, abbreviation, handleClick }) {
   const [loading, setLoading] = useState(true)
   const [chartPlayers, setChartPlayers] = useState()
   const [number, setNumber] = useState(0)
@@ -163,7 +163,7 @@ function SiteTable({ color, abbreviation }) {
                         key={player._id}
                         price={player.price}
                         color={color}
-                        onClick={() => console.log(player.fullName)}
+                        onClick={() => handleClick(player._id)}
                       >
                         <CustomTdPlayer>{player.fullName}</CustomTdPlayer>
                         <CustomTd>{player.position}</CustomTd>

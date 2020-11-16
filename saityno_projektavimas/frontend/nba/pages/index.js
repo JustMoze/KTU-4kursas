@@ -5,9 +5,8 @@ import dynamic from 'next/dynamic'
 import { GetAllTeams } from './../service/teamService'
 import Loader from '../components/Loader/Loader'
 import Info from '../components/Team/Info'
-import has from 'lodash/has'
-import { validateEmail, validateLength } from './../utils/Inputs'
 import Footer from '../components/Footer/Footer'
+import { useRouter } from 'next/router'
 // import Slider from '../components/Slider/Slider'
 
 const DynamicComponentWithNoSSR = dynamic(
@@ -16,6 +15,7 @@ const DynamicComponentWithNoSSR = dynamic(
 )
 
 export default function Home({ teams }) {
+  const router = useRouter();
   const [loaded, setLoaded] = useState(false)
   const [nbaTeams, setNbaTeams] = useState([])
   const [currentTeam, setCurrentTeam] = useState(0)
@@ -126,7 +126,12 @@ export default function Home({ teams }) {
                 handleChange={HandleCurrentTeamChange}
               />
               <div style={{ marginTop: 20 }}>
-                <Info team_id={currentTeam} />
+                <Info team_id={currentTeam} handleClick={(id) => {
+                  router.push({
+                    pathname: '/player/[id]',
+                    query: {id: id, teamId: currentTeam}
+                  })
+                }}/>
               </div>
             </>
           </div>

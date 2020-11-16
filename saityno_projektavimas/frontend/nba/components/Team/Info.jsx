@@ -5,11 +5,10 @@ import config from '../../config.json'
 import Cover from './Cover'
 import Loader from '../Loader/Loader'
 import AppSnackbar from '../Snackbar/Snackbar'
-import Circular from '../Charts/Circular'
 import Histogram from '../Charts/Group'
 import SiteTable from '../Charts/SiteTable'
 
-const Info = ({ team_id }) => {
+const Info = ({ team_id, handleClick }) => {
   const [team, setTeam] = useState()
   const [loading, setLoading] = useState(true)
   const [openSnackbar, setSnackbarOpen] = useState(false)
@@ -29,31 +28,6 @@ const Info = ({ team_id }) => {
         setLoading(false)
       })
   }, [team_id])
-  const ConfigureStatsObject = (data) => {
-    return [
-      {
-        title: 'APG',
-        value: data.apg,
-        color: '#D4D7DD',
-      },
-      {
-        title: 'RPG',
-        value: data.rpg,
-        color: '#b9bec9',
-      },
-
-      {
-        title: 'OPPG',
-        value: data.oppg,
-        color: '#7e7474',
-      },
-      {
-        title: 'PPG',
-        value: data.ppg,
-        color: data.color,
-      },
-    ]
-  }
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       setSnackbarOpen(false)
@@ -154,6 +128,7 @@ const Info = ({ team_id }) => {
                   </div>
                   <SiteTable
                     color={team.color}
+                    handleClick={handleClick}
                     abbreviation={team.abbreviation}
                   />
                 </Col>

@@ -36,7 +36,7 @@ const BluredImageContainer = styled.div`
   }
   zindex: 1;
 `
-function Cover({ team: { color, logo, full_name, conference, record } }) {
+function Cover({ team: { color, logo, full_name, conference, coach, record } }) {
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     if (logo) {
@@ -99,6 +99,28 @@ function Cover({ team: { color, logo, full_name, conference, record } }) {
                     }}
                   >
                     {record}
+                  </RobotoM400>
+                </StyledRow>
+                <StyledRow>
+                <RobotoM400
+                    style={{
+                      marginTop: 10,
+                      fontStyle: 'italic',
+                      fontSize: 22,
+                      fontWeight: "bold",
+                      marginRight: 10
+                    }}
+                  >
+                    Coach: 
+                  </RobotoM400>
+                <RobotoM400
+                    style={{
+                      marginTop: 10,
+                      fontStyle: 'italic',
+                      fontSize: 22,
+                    }}
+                  >
+                    {coach}
                   </RobotoM400>
                 </StyledRow>
               </Col>
