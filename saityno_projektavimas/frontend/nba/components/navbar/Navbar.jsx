@@ -40,6 +40,10 @@ const LogoContainer = styled.div`
     padding-left: 3vw;
     padding-top: 2vh;
   }
+  @media (max-width: 768px) {
+    width: 20vw;
+    margin-left: 5px;
+  }
 `
 export default function Navbar({
   handleOpen,

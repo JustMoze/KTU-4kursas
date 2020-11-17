@@ -17,6 +17,9 @@ const RoundedCornerBackground = styled.div`
   left: 15px;
   height: 10vh;
   width: 15vh;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 const RoudedCorner = styled.div`
   position: absolute;
@@ -27,6 +30,9 @@ const RoudedCorner = styled.div`
   border-top-left-radius: 30px;
   background-color: #ffffff;
   z-index: 2;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 
 const PlayersContainer = ({ abbreviation, color }) => {

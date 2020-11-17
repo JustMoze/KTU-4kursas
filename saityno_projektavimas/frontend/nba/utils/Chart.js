@@ -13,6 +13,10 @@ export const CustomTable = styled(Table)`
   position: relative;
   width: 94%;
   margin-left: 3%;
+  @media (max-width: 768px) {
+    padding-bottom: 200px;
+  }
+  
 `
 export const CustomTd = styled(Td)`
   height: 40px;

@@ -7,7 +7,25 @@ import Loader from '../Loader/Loader'
 import AppSnackbar from '../Snackbar/Snackbar'
 import Histogram from '../Charts/Group'
 import SiteTable from '../Charts/SiteTable'
-
+import styled from 'styled-components'
+const OvalCorner = styled.div`
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 52px;
+  width: 100%;
+  backgroundColor: ${props => props.color};
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+const MainRow = styled(Row)`
+    height: 100%;
+    width: 100vw;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    position: relative;
+`;
 const Info = ({ team_id, handleClick }) => {
   const [team, setTeam] = useState()
   const [loading, setLoading] = useState(true)
@@ -34,6 +52,31 @@ const Info = ({ team_id, handleClick }) => {
     }
     setSnackbarOpen(false)
   }
+  const ConfigureStatsObject = (data) => {
+    return [
+      {
+        title: 'APG',
+        value: data.apg,
+        color: '#D4D7DD',
+      },
+      {
+        title: 'RPG',
+        value: data.rpg,
+        color: '#b9bec9',
+      },
+
+      {
+        title: 'OPPG',
+        value: data.oppg,
+        color: '#7e7474',
+      },
+      {
+        title: 'PPG',
+        value: data.ppg,
+        color: data.color,
+      },
+    ]
+  }
   return (
     <>
       {loading ? (
@@ -59,25 +102,7 @@ const Info = ({ team_id, handleClick }) => {
             />
           ) : (
             <>
-              <Row
-                style={{
-                  marginRight: 10,
-                  marginLeft: 10,
-                  height: '100%',
-                  width: '100vw',
-                  position: 'relative',
-                }}
-              >
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    height: 52,
-                    width: '100%',
-                    backgroundColor: team.color,
-                  }}
-                ></div>
+              <MainRow>
                 <Col
                   sm={12}
                   md={6}
@@ -107,16 +132,7 @@ const Info = ({ team_id, handleClick }) => {
                     position: 'relative',
                   }}
                 >
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: 52,
-                      left: 0,
-                      width: 20,
-                      height: 100,
-                      backgroundColor: team.color,
-                    }}
-                  >
+                  <OvalCorner>
                     <div
                       style={{
                         width: '100%',
@@ -125,14 +141,14 @@ const Info = ({ team_id, handleClick }) => {
                         backgroundColor: '#ffffff',
                       }}
                     ></div>
-                  </div>
+                  </OvalCorner>
                   <SiteTable
                     color={team.color}
                     handleClick={handleClick}
                     abbreviation={team.abbreviation}
                   />
                 </Col>
-              </Row>
+              </MainRow>
             </>
           )}
         </>

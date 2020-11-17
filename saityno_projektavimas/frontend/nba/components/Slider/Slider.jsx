@@ -15,6 +15,14 @@ const SliderContainer = styled.div`
   width: 70vw;
   height: 50vh;
   overflow: hidden;
+  @media (max-width: 768px) {
+    width: 90vw;
+    height: 22vh;
+    min-height: 300px;
+    padding-left: 10px;
+    padding-right: 10px;
+    z-index: 10;
+  }
 `
 const LoaderContainer = styled.div`
   position: relative;
@@ -35,6 +43,9 @@ const LeftArrContainer = styled.div`
   justify-content: center;
   width: 7vw;
   height: '100%';
+  @media (max-width: 768px) {
+    left: 10px;
+  }
 `
 const RightArrContainer = styled.div`
   position: absolute;
@@ -46,6 +57,9 @@ const RightArrContainer = styled.div`
   justify-content: center;
   width: 7vw;
   height: '100%';
+  @media (max-width: 768px) {
+    right: 10px;
+  }
 `
 const ImageContainer = styled.div`
   height: 60vh;
@@ -154,7 +168,7 @@ const Slider = ({ teams, handleClick, handleChange }) => {
                 <RiArrowLeftSLine
                   size={80}
                   color={leftDisable ? NBA_disable : '#ffffff'}
-                  style={{ cursor: leftDisable ? null : 'pointer', zIndex: 2 }}
+                  style={{ cursor: leftDisable ? null : 'pointer', zIndex: 2, borderWidth: 1 }}
                 />
               </ArrowsContainer>
             </LeftArrContainer>
@@ -170,7 +184,7 @@ const Slider = ({ teams, handleClick, handleChange }) => {
                   style={{
                     cursor: rightDisable ? null : 'pointer',
                     zIndex: 2,
-                    flex: 1,
+                    flex: 1, borderWidth: 1
                   }}
                 />
               </ArrowsContainer>

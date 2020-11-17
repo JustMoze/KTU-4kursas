@@ -30,3 +30,10 @@ export const RobotoM400_italic = styled.p`
   color: ${NBA_dark};
   font-style: italic;
 `
+export const RobotoM500_Details = styled.h2`
+  font-family: 'Roboto';
+  text-shadow: 2px 2px 2px #000000;
+  margin-top: 17px;
+  font-size: 55px;
+  color: ${NBA_white};
+`;

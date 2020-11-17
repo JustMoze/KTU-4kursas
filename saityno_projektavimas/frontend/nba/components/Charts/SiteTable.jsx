@@ -14,6 +14,7 @@ import {
   CasualTh,
   CustomTdPlayer,
 } from './../../utils/Chart'
+import { colors } from '@material-ui/core'
 
 const PlayerRow = styled(Tr)`
   position: relative;
@@ -42,7 +43,33 @@ const ArrowContainer = styled.div`
 const CustomBody = styled(Tbody)`
   margin-top: 25px;
 `
-function SiteTable({ color, abbreviation, handleClick }) {
+const NavigationContainer = styled.div`
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    float: right;
+    margin-top: 1%;
+    margin-right: 3.3%;
+    width: 50%;
+    height: 50px;
+    z-index: 5;
+    @media (max-width: 768px) {
+      margin-right: 0%;
+      margin-top: 10px;
+    }
+`;
+const ArrowsRow = styled(Tr)`
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 0px;
+    justify-content: flex-end;
+    @media (max-width: 768px) {
+      background-color: ${props => props.color};
+    }
+`;
+function SiteTable({ color, abbreviation, handleClick, center = false }) {
   const [loading, setLoading] = useState(true)
   const [chartPlayers, setChartPlayers] = useState()
   const [number, setNumber] = useState(0)
@@ -54,9 +81,9 @@ function SiteTable({ color, abbreviation, handleClick }) {
   useEffect(() => {
     fetch(`${config.API}players/team/${abbreviation}`)
       .then((response) => response.json())
-      .then((data) => {
+      .then((data) => {    
         setPlayers(data)
-        setChartPlayers(data.slice(0, 10))
+        setChartPlayers(data.slice(0, 11))
         setLoading(false)
       })
       .catch((ex) => {
@@ -123,7 +150,6 @@ function SiteTable({ color, abbreviation, handleClick }) {
   const findResidue = (number) => {
     return number % 10
   }
-  console.log('number', number)
   return (
     <>
       {loading ? (
@@ -171,36 +197,30 @@ function SiteTable({ color, abbreviation, handleClick }) {
                       </PlayerRow>
                     )
                   })}
+                  <ArrowsRow color={color}>
+                    <NavigationContainer style={{width: center ? '100%' : '50%', justifyContent: center ? "center" : "flex-end"}}>
+                      <ArrowContainer
+                        color={color}
+                        enable={number > 0 ? true : false}
+                        onClick={() => handleArrowClick('left')}
+                      >
+                        {number !== 0 && (
+                          <TiChevronLeft size={45} color="#ffffff" />
+                        )}
+                      </ArrowContainer>
+                      <ArrowContainer
+                        color={color}
+                        enable={allowRight}
+                        onClick={() => handleArrowClick('right')}
+                      >
+                        {allowRight && (
+                          <TiChevronRight size={45} color="#ffffff" />
+                        )}
+                      </ArrowContainer>
+                    </NavigationContainer>
+                  </ArrowsRow>
                 </CustomBody>
               </CustomTable>
-              <div
-                style={{
-                  position: 'relative',
-                  justifyContent: 'flex-end',
-                  alignItems: 'center',
-                  display: 'flex',
-                  float: 'right',
-                  marginTop: '1%',
-                  marginRight: '3.3%',
-                  width: '50%',
-                  height: 50,
-                }}
-              >
-                <ArrowContainer
-                  color={color}
-                  enable={number > 0 ? true : false}
-                  onClick={() => handleArrowClick('left')}
-                >
-                  {number !== 0 && <TiChevronLeft size={45} color="#ffffff" />}
-                </ArrowContainer>
-                <ArrowContainer
-                  color={color}
-                  enable={allowRight}
-                  onClick={() => handleArrowClick('right')}
-                >
-                  {allowRight && <TiChevronRight size={45} color="#ffffff" />}
-                </ArrowContainer>
-              </div>
             </>
           )}
         </>

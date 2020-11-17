@@ -14,6 +14,9 @@ const CoverContainer = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 15px 0px 50px 50px;
+  @media (max-width: 768px) {
+    overflow: scroll;
+  }
 `
 const StyledRow = styled.div`
   display: flex;
@@ -31,11 +34,37 @@ const BluredImageContainer = styled.div`
   right: -7%;
   width: 70%;
   height: 190%;
+  zindex: 1;
   @media (max-width: 768px) {
     display: none;
   }
-  zindex: 1;
 `
+const Logo = styled.img`
+  width: 100%;
+  height: 100%;
+  @media (max-width: 768px) {
+    position: absolute;
+    top: -50px;
+    width: 60%;
+    min-height: 250px;
+    right: -25px;
+    opacity: 0.6
+  }
+`;
+const LogoContainer = styled.div`
+  height: 100%;
+  width: 100%;
+  position: relative;
+  @media (max-width: 768px) {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    width: 100%;
+    height: 100%; 
+    opacity: 0.5;
+    z-index: 10;
+  }
+`;
 function Cover({ team: { color, logo, full_name, conference, coach, record } }) {
   const [loading, setLoading] = useState(true)
   useEffect(() => {
@@ -72,16 +101,14 @@ function Cover({ team: { color, logo, full_name, conference, coach, record } }) 
                   alignItems: 'center',
                 }}
               >
-                <div style={{ height: '100%', width: '80%' }}>
-                  <img
+                <LogoContainer>
+                  <Logo
                     src={`https://images.weserv.nl/?url=${logo}&w=400&h=400`}
                     style={{ transform: 1.5 }}
-                    width="100%"
-                    height="100%"
                   />
-                </div>
+                </LogoContainer>
               </Col>
-              <Col>
+              <Col style={{zIndex: 10}}>
                 <StyledRow style={{ marginTop: 25, zIndex: 3 }}>
                   <RobotoM500 style={{ fontSize: 40 }}>{full_name}</RobotoM500>
                 </StyledRow>
