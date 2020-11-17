@@ -6,9 +6,10 @@ import Loader from '../Loader/Loader'
 
 const CoverContainer = styled.div`
   position: relative;
+  margin-left: 5px;
   width: 100%;
   overflow: hidden;
-  min-height: 250px;
+  min-height: 350px;
   height: 15%;
   display: flex;
   justify-content: center;

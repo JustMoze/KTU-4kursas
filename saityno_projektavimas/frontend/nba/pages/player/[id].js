@@ -99,7 +99,10 @@ const CustomTd = styled(Th)`
   @media (max-width: 768px) {
     width: 20vw;
     display: flex;
-  }
+  };
+  &:hover {
+    opacity: 0.2
+  };
 `
 const CustomDetailTd = styled(Th)`
   height: 120px;
@@ -109,7 +112,10 @@ const CustomDetailTd = styled(Th)`
   width: 10vw;
   @media (max-width: 768px) {
     display: none !important;
-  }
+  };
+  &:hover {
+    opacity: 0.2
+  };
 `
 const CustomTr = styled(Tr)`
   position: absolute;
@@ -163,6 +169,10 @@ const Minutes = styled.div`
   align-center: center;
   border-radius: 15px;
   border: 2px ${(props) => props.color} solid;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5
+  };
 `
 const CashContainer = styled.div`
   position: absolute;
@@ -269,7 +279,7 @@ function Player({ player, team }) {
             style={{ display: 'block', width: '100%', position: 'relative' }}
           >
             <RobotoM400_underline
-              style={{ fontSize: 27, color: '#ffffff', fontStyle: 'normal' }}
+              style={{ fontSize: 27, color: '#ffffff', fontStyle: 'normal', cursor: "pointer" }}
             >
               {team.full_name} | {player.number} | {player.position}
             </RobotoM400_underline>

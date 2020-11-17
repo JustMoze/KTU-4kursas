@@ -46,6 +46,7 @@ const CustomBody = styled(Tbody)`
 const NavigationContainer = styled.div`
     position: relative;
     display: flex;
+    
     justify-content: flex-end;
     align-items: center;
     float: right;
