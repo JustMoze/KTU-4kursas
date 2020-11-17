@@ -43,6 +43,14 @@ const userSchema = new Schema({
         type: Number,
         default: 25000000
     },
+    wins: {
+        type: Number,
+        default: 0
+    },
+    losses: {
+        type: Number,
+        default: 0
+    },
     isAdmin: {
         type: Boolean,
         default: false
@@ -52,9 +60,9 @@ userSchema.methods.generateAuthToken = function () {
     const token = jwt.sign(
         {
             _id: this._id,
-            name: this.name,
+            username: this.username,
             email: this.email,
-            isAdmin: this.isAdmin
+            isAdmin: this.isAdmin,
         },
         config.get('jwtPrivateKey')
     );
@@ -74,6 +82,8 @@ function validateUser(user){
         favTeam: Joi.string().optional(),
         favPlayer: Joi.string().optional(),
         isAdmin: Joi.bool().optional(),
+        wins: Joi.number().default(0),
+        losses: Joi.number().default(0),
         bank: Joi.number().optional()
     });
     return schema.validate(user);
