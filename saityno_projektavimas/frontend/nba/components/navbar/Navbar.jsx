@@ -5,6 +5,9 @@ import { useRouter } from 'next/router'
 import { NBA_blue } from '../../styles/globalStyle.module.scss'
 import './style.module.scss'
 import AuthModal from './../Auth/AuthModal'
+import { IoIosBasketball } from "react-icons/io";
+import { RobotoM400 } from '../../utils/fonts'
+import Match from '../Match/Match'
 
 const Container = styled.div`
   background-color: ${(props) => props.color};
@@ -45,6 +48,55 @@ const LogoContainer = styled.div`
     margin-left: 5px;
   }
 `
+
+const PlayIcon = styled.div`
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 80px;
+  cursor: pointer;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media (max-width: 768px) {
+    
+  }
+`;
+const BattleContainer = styled.div`
+  position: absolute;
+  bottom: -80px;
+  right: 5px;
+  width: 20vw;
+  cursor: pointer;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const HoverAppereance = styled.div`
+  visibility: hidden;
+  position: absolute;
+  border-radius: 25px;
+  right: 85px;
+  width: 12vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 170px;
+  height: 60px;
+  bottom: 10px;
+  border: 4px solid #E47041;
+  ${BattleContainer}:hover & {
+    visibility: visible;
+  }
+`;
+const RobotoM400Play = styled(RobotoM400)`
+  font-size: 30px;
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+`;
 export default function Navbar({
   handleOpen,
   handleLinkClick,
@@ -53,9 +105,22 @@ export default function Navbar({
 }) {
   const [authName, setAuthName] = useState('')
   const router = useRouter()
+  const [startBattle, setStartBattle] = useState(false);
   return (
     <>
       <Container color={color}>
+        <BattleContainer>
+          <div style={{position: "relative", width: '100%', height: 80}}>
+            <HoverAppereance onClick={() => setStartBattle(true)}>
+                <RobotoM400Play>
+                  QUICK GAME
+                </RobotoM400Play>
+            </HoverAppereance>
+            <PlayIcon>
+                <IoIosBasketball size={80} color="#B54213"/>
+            </PlayIcon>
+          </div>
+        </BattleContainer>
         <LogoContainer
           onClick={() => {
             router.push('/')
@@ -87,6 +152,7 @@ export default function Navbar({
         </LinkContainer>
       </Container>
       <AuthModal type={authName} color={color} {...rest} />
+      <Match color={color} handleClose={() => setStartBattle(false)} open={startBattle}/>
     </>
   )
 }
