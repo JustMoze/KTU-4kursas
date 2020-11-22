@@ -17,7 +17,12 @@
     "axios": "^0.21.0",
     "babel-plugin-inline-react-svg": "^1.1.2",
     "babel-plugin-styled-components": "^1.11.1",
+    "chai": "^4.2.0",
     "env": "0.0.2",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
+    "enzyme-to-json": "^3.6.1",
+    "jest-styled-components": "^7.0.3",
     "lodash": "^4.17.20",
     "next": "10.0.0",
     "next-images": "^1.6.2",
@@ -32,6 +37,7 @@
     "react-spring": "^8.0.27",
     "react-spring-3d-carousel": "^1.2.0",
     "react-super-responsive-table": "^5.1.4",
+    "react-test-renderer": "^17.0.1",
     "sass": "^1.28.0",
     "styled-components": "^5.2.1",
     "victory": "^35.3.3"
@@ -40,7 +46,15 @@
     "file-loader": "^6.2.0",
     "jest": "^26.6.3"
   },
-  "browser":{
+  "browser": {
     "child_process": false
-  } 
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>src/setupTests.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  }
 }

@@ -1,0 +1,116 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Match component Renders input correctly 1`] = `
+<Match__CustomModal
+  onBackdropClick={[MockFunction]}
+  onClose={[MockFunction]}
+  onEscapeKeyDown={[MockFunction]}
+  open={true}
+>
+  <div
+    style={
+      Object {
+        "backgroundColor": "#ffffff",
+        "height": "100%",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+  >
+    <Match__MatchRow>
+      <Match__RotateSquareUserTeam
+        color="#aee6e6"
+        style={
+          Object {
+            "top": "10%",
+          }
+        }
+      />
+      <Match__RotateSquareUserTeam
+        color="#aee6e6"
+        style={
+          Object {
+            "bottom": "10%",
+          }
+        }
+      />
+      <Match__RotateSquareUserTeam
+        color="#aee6e6"
+        style={
+          Object {
+            "bottom": "44%",
+          }
+        }
+      />
+      <Match__MatchColLeft
+        lg={6}
+        md={12}
+        sm={12}
+      >
+        <div
+          style={
+            Object {
+              "height": "95%",
+              "position": "relative",
+              "width": "100%",
+            }
+          }
+        >
+          <Match__LogoContainer>
+            <Match__LogoDiv>
+              <img
+                alt="1"
+                height="100%"
+                src="https://images.weserv.nl/?url=https://www.nba.com/assets/logos/teams/primary/web/MIA.svg&w=600&h=600"
+                width="100%"
+              />
+            </Match__LogoDiv>
+          </Match__LogoContainer>
+        </div>
+      </Match__MatchColLeft>
+      <Match__MatchCol
+        color="#aee6e6"
+        lg={6}
+        md={12}
+        sm={12}
+        style={
+          Object {
+            "zIndex": 6,
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#a8dda8",
+              "display": "flex",
+              "height": "95%",
+              "justifyContent": "center",
+              "position": "relative",
+              "width": "100%",
+            }
+          }
+        >
+          <Match__LoaderContainer>
+            <Loader
+              size={60}
+            />
+          </Match__LoaderContainer>
+        </div>
+      </Match__MatchCol>
+      <Match__MatchButtonContainer>
+        <Match__MatchButton
+          color="#892cdc"
+          onClick={[Function]}
+        >
+          <img
+            height="100%"
+            src="https://ak-static.cms.nba.com/wp-content/uploads/logos/leagues/logo-nba.svg"
+          />
+        </Match__MatchButton>
+      </Match__MatchButtonContainer>
+    </Match__MatchRow>
+  </div>
+</Match__CustomModal>
+`;

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loader component Renders loader correctly 1`] = `
+<Loading
+  color="#c80f2e"
+  delay={0}
+  height={60}
+  type="spin"
+  width={60}
+/>
+`;

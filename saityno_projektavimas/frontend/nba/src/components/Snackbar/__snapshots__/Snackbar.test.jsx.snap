@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snackbar AppSnackbar renders correctly 1`] = `
+<WithStyles(ForwardRef(Snackbar))
+  anchorOrigin={
+    Object {
+      "horizontal": "left",
+      "vertical": "top",
+    }
+  }
+  autoHideDuration={3000}
+  onClose={[MockFunction]}
+  open={true}
+>
+  <Alert
+    onClose={[MockFunction]}
+    severity="error"
+  >
+    Hello from test
+  </Alert>
+</WithStyles(ForwardRef(Snackbar))>
+`;

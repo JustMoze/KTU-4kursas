@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
-import Navbar from '../components/navbar/Navbar'
+import Navbar from '../src/components/navbar/Navbar'
 import dynamic from 'next/dynamic'
 import { GetAllTeams } from './../service/teamService'
-import Loader from '../components/Loader/Loader'
-import Info from '../components/Team/Info'
-import Footer from '../components/Footer/Footer'
+import Loader from '../src/components/Loader/Loader'
+import Info from '../src/components/Team/Info'
+import Footer from '../src/components/Footer/Footer'
 import { useRouter } from 'next/router'
 // import Slider from '../components/Slider/Slider'
 
 const DynamicComponentWithNoSSR = dynamic(
-  () => import('../components/Slider/Slider'),
+  () => import('../src/components/Slider/Slider'),
   { ssr: false }
 )
 

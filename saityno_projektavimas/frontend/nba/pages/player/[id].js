@@ -11,8 +11,8 @@ import {
   RobotoM500_Details,
 } from '../../utils/fonts'
 import { FcMoneyTransfer } from 'react-icons/fc'
-import Footer from '../../components/Footer/Footer'
-import SiteTable from '../../components/Charts/SiteTable'
+import Footer from '../../src/components/Footer/Footer'
+import SiteTable from '../../src/components/Charts/SiteTable'
 import { useRouter } from 'next/router'
 import { CgChevronLeftR } from "react-icons/cg";
 const PlayerNav = styled.div`
