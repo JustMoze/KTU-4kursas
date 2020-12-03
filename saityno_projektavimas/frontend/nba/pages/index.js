@@ -7,7 +7,8 @@ import Loader from '../src/components/Loader/Loader'
 import Info from '../src/components/Team/Info'
 import Footer from '../src/components/Footer/Footer'
 import { useRouter } from 'next/router'
-// import Slider from '../components/Slider/Slider'
+import { LoginUser, PostUser } from '../service/userService'
+import { ToastContainer, toast } from 'react-toastify';
 
 const DynamicComponentWithNoSSR = dynamic(
   () => import('../src/components/Slider/Slider'),
@@ -37,6 +38,7 @@ export default function Home({ teams }) {
   // -------------- authentification ----------------------
   const [openAuthModal, setOpenAuthModal] = useState(false)
   const [currentAuthMethod, setCurrentAuthMethod] = useState('')
+  const [dataFetching, setDataFetching] = useState(false);
 
   const HandleCurrentTeamChange = (index) => {
     setCurrentTeam(nbaTeams[index]._id)
@@ -76,15 +78,60 @@ export default function Home({ teams }) {
   }, [teams])
 
   const HanldeSubmit = (type) => {
+    console.log("type", type);
+    setDataFetching(true);
     switch (type) {
       case 'login':
-        console.log('object to return ', loginUser)
+        handleLogin().then(res => {
+          setDataFetching(false)
+          toast.success(`Welcome ${res}!`)
+          console.log("register result", res)
+        }).catch(ex => {
+          setDataFetching(false)
+          toast.error(ex)
+          console.log('err', ex)
+        })
+
         break
       default:
-        console.log('object to return ', user)
+        handleRegister().then(res => {
+          setDataFetching(false)
+          toast.success(`Welcome ${res.username}!`)
+          console.log("register result", res)
+        }).catch(e => {
+          setDataFetching(false)
+          toast.error(e.msg)
+          console.log('err', e)
+        })
         break
     }
   }
+  
+  // login promise
+  const handleLogin = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const {data} = await LoginUser(user);
+        // find user by token
+        resolve(data);
+      } catch (error) {
+        reject({msg: error.message})
+      }
+    })
+  }
+
+  // register promise
+  const handleRegister = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const {data} = await PostUser(user);
+        resolve(data);
+      } catch (error) {
+        reject({msg: error.message})
+      }
+    })
+  }
+
   const handleLinkClick = (linkName) => {
     setCurrentAuthMethod(linkName)
   }
@@ -115,11 +162,13 @@ export default function Home({ teams }) {
           handleLinkClick={handleLinkClick}
           handleSubmit={HanldeSubmit}
           user={currentAuthMethod === 'register' ? user : loginUser}
+          loading={dataFetching}
           color={color}
         />
         {loaded ? (
           <div style={{ paddingTop: 20, overflowY: 'scroll' }}>
             <>
+              <ToastContainer />
               <DynamicComponentWithNoSSR
                 teams={nbaTeams}
                 handleClick={HandleCardClick}

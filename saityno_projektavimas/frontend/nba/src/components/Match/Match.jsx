@@ -126,6 +126,7 @@ const LogoDiv = styled.div`
   }
 `
 export default function Match({ open, handleClose, team }) {
+  // refactor to one hook
   const [allPlayers, setAllPlayers] = useState([])
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
@@ -133,6 +134,8 @@ export default function Match({ open, handleClose, team }) {
   const [result, setResult] = useState({})
   const [resultLoading, setResultLoading] = useState(true)
   const [battleLoading, setBattleLoading] = useState(false)
+  const [matchOver, setMatchOver] = useState(false);
+
   useEffect(() => {
     async function LoadUser() {
       const { data: users } = await GetUsers(currentPage)
@@ -142,7 +145,6 @@ export default function Match({ open, handleClose, team }) {
       }
     }
     LoadUser()
-    console.log('result in useEffect', result)
   }, [currentPage, result])
   return (
     <CustomModal

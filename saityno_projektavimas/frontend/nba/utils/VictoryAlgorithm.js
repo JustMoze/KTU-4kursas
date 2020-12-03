@@ -50,7 +50,7 @@ export const CalculateWinner = (team1, team2) => {
         let rightPoints = CalculatePoints(rightTeamsStats);
 
         if(leftPoints !== undefined && rightPoints !== undefined && leftTeamStats.ppg !== 0 && rightTeamsStats.ppg !== 0){
-            resolve({left: leftPoints, right: rightPoints});
+            resolve({left: leftPoints.toFixed(0), right: rightPoints.toFixed(0)});
         } else {
             reject({msg: "Something happen"});
         }

@@ -9,6 +9,7 @@ import { AiFillCloseCircle } from 'react-icons/ai'
 import { login, register, validateLength } from '../../../utils/Inputs'
 import has from 'lodash/has'
 import { validateEmail } from './../../../utils/Inputs'
+import Loader from '../Loader/Loader'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -79,6 +80,7 @@ const AuthModal = ({
   user,
   handleChange,
   handleSubmit,
+  loading,
   color,
 }) => {
   const classes = useStyles()
@@ -132,60 +134,64 @@ const AuthModal = ({
       }}
     >
       <ModalContainer>
-        <IconContainer id="iconContainer" onClick={handleClose}>
-          <AiFillCloseCircle size={25} />
-        </IconContainer>
-        <CenterContainer>
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              alignSelf: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <LogoContainer color={color}>
-              <img
-                src="https://ak-static.cms.nba.com/wp-content/uploads/logos/leagues/logo-nba.svg"
-                height="100%"
-              />
-            </LogoContainer>
-          </div>
-          {inputs.map((input, index) => {
-            return (
-              <Input
-                color={color}
-                key={index}
-                error={ValidateInput(input) === '' ? false : true}
-                message={ValidateInput(input)}
-                name={`${type}_${input.name}`}
-                value={user[`${input.name}`]}
-                handleChange={(e) => handleChange(e)}
-                type={input.type}
-              />
-            )
-          })}
-          <div
-            style={{
-              width: '100%',
-              marginTop: 20,
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            <Button
-              variant="contained"
-              size="small"
-              style={{ backgroundColor: color, color: '#ffffff' }}
-              className={classes.button}
-              onClick={() => handleSubmit(type)}
-              disabled={!AllowSubmit()}
-              startIcon={<RiLoginCircleLine size={25} />}
+        {loading ? <div style={{display: "flex", flex: 1, height: '100%',  justifyContent: "center", alignItems: "center"}}>
+          <Loader size={40}/>
+        </div> : <> 
+          <IconContainer id="iconContainer" onClick={handleClose}>
+            <AiFillCloseCircle size={25} />
+          </IconContainer>
+          <CenterContainer>
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                alignSelf: 'center',
+                justifyContent: 'center',
+              }}
             >
-              Save
-            </Button>
-          </div>
-        </CenterContainer>
+              <LogoContainer color={color}>
+                <img
+                  src="https://ak-static.cms.nba.com/wp-content/uploads/logos/leagues/logo-nba.svg"
+                  height="100%"
+                />
+              </LogoContainer>
+            </div>
+            {inputs.map((input, index) => {
+              return (
+                <Input
+                  color={color}
+                  key={index}
+                  error={ValidateInput(input) === '' ? false : true}
+                  message={ValidateInput(input)}
+                  name={`${type}_${input.name}`}
+                  value={user[`${input.name}`]}
+                  handleChange={(e) => handleChange(e)}
+                  type={input.type}
+                />
+              )
+            })}
+            <div
+              style={{
+                width: '100%',
+                marginTop: 20,
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <Button
+                variant="contained"
+                size="small"
+                style={{ backgroundColor: color, color: '#ffffff', minHeight: 50, cursor: "pointer" }}
+                className={classes.button}
+                onClick={() => handleSubmit(type)}
+                disabled={!AllowSubmit()}
+                startIcon={<RiLoginCircleLine size={25} />}
+              >
+                Save
+              </Button>
+            </div>
+          </CenterContainer>
+        </>}
       </ModalContainer>
     </CustomModal>
   )
