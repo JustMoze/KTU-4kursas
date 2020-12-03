@@ -5,7 +5,7 @@ import { FiInstagram } from 'react-icons/fi'
 import { AiOutlineLinkedin, AiFillTwitterCircle } from 'react-icons/ai'
 import Router from 'next/router'
 jest.mock('next/router', ()=> ({push: jest.fn()}))
-import 'jest-styled-components'
+ 
 
 
 describe('Footer', () => {
