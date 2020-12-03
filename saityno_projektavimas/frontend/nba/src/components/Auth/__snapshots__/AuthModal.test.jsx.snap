@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Auth modal AuthModal renders correctly 1`] = `
+<AuthModal__CustomModal
+  onBackdropClick={[MockFunction]}
+  onClose={[MockFunction]}
+  onEscapeKeyDown={[MockFunction]}
+  open={true}
+  style={
+    Object {
+      "left": "30vw",
+      "minHeight": 400,
+      "top": "25vh",
+    }
+  }
+>
+  <AuthModal__ModalContainer>
+    <AuthModal__IconContainer
+      id="iconContainer"
+      onClick={[MockFunction]}
+    >
+      <AiFillCloseCircle
+        size={25}
+      />
+    </AuthModal__IconContainer>
+    <AuthModal__CenterContainer>
+      <div
+        style={
+          Object {
+            "alignSelf": "center",
+            "display": "flex",
+            "justifyContent": "center",
+            "width": "100%",
+          }
+        }
+      >
+        <AuthModal__LogoContainer
+          color="#ffffff"
+        >
+          <img
+            height="100%"
+            src="https://ak-static.cms.nba.com/wp-content/uploads/logos/leagues/logo-nba.svg"
+          />
+        </AuthModal__LogoContainer>
+      </div>
+      <Input
+        color="#ffffff"
+        error={false}
+        handleChange={[Function]}
+        key="0"
+        message=""
+        name="login_email"
+        type="email"
+        value="kompotas@gmail.com"
+      />
+      <Input
+        color="#ffffff"
+        error={false}
+        handleChange={[Function]}
+        key="1"
+        message=""
+        name="login_password"
+        type="password"
+        value="kompotas123"
+      />
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "justifyContent": "center",
+            "marginTop": 20,
+            "width": "100%",
+          }
+        }
+      >
+        <WithStyles(ForwardRef(Button))
+          className="makeStyles-button-1"
+          disabled={false}
+          onClick={[Function]}
+          size="small"
+          startIcon={
+            <RiLoginCircleLine
+              size={25}
+            />
+          }
+          style={
+            Object {
+              "backgroundColor": "#ffffff",
+              "color": "#ffffff",
+            }
+          }
+          variant="contained"
+        >
+          Save
+        </WithStyles(ForwardRef(Button))>
+      </div>
+    </AuthModal__CenterContainer>
+  </AuthModal__ModalContainer>
+</AuthModal__CustomModal>
+`;

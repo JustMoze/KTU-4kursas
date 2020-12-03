@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input Renders input correctly 1`] = `
+<Input__WhiteBorderTextField
+  color="primary"
+  error={false}
+  helperText={false}
+  label="Email"
+  name="login_email"
+  onChange={[Function]}
+  style={
+    Object {
+      "marginBottom": 10,
+      "width": "100%",
+    }
+  }
+  type="login"
+  value="kompotas@gmail.com"
+  variant="outlined"
+/>
+`;

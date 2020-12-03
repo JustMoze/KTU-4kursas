@@ -1,13 +1,12 @@
 import styled from 'styled-components'
-import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
-import { NBA_white } from '../styles/globalStyle.module.scss'
+import { Table, Tr, Th, Td } from 'react-super-responsive-table'
 
 export const CustomTr = styled(Tr)`
+  background-color: ${(props) => props.color};
   position: relative;
   height: 50px;
   width: 100%;
-  background-color: ${(props) => props.color};
-  color: ${NBA_white};
+  color: #ffffff;
 `
 export const CustomTable = styled(Table)`
   position: relative;

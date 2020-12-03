@@ -78,12 +78,12 @@ export function validateLength(min, max, input, name) {
     )
   } else if (input.length > max) {
     errorArr.push(
-      `${UpperCaseLetter(name)} must be longer then ${min - 1} characters`
+      `${UpperCaseLetter(name)} must be shorter then ${max - 1} characters`
     )
   }
   return errorArr
 }
 
-const UpperCaseLetter = (string) => {
+export const UpperCaseLetter = (string) => {
   return string.slice(0, 1).toUpperCase() + string.slice(1, string.length)
 }

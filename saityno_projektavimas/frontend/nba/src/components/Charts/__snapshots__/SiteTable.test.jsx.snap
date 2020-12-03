@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SiteTable component Renders footer correctly 1`] = `
+<Fragment>
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "height": "100vh",
+        "justifyContent": "center",
+        "width": "100%",
+      }
+    }
+  >
+    <Loader
+      size={40}
+    />
+  </div>
+</Fragment>
+`;
