@@ -9,6 +9,7 @@ import Footer from '../src/components/Footer/Footer'
 import { useRouter } from 'next/router'
 import { LoginUser, PostUser } from '../service/userService'
 import { ToastContainer, toast } from 'react-toastify';
+import { UserContext } from '../userContext'
 
 const DynamicComponentWithNoSSR = dynamic(
   () => import('../src/components/Slider/Slider'),
@@ -39,6 +40,7 @@ export default function Home({ teams }) {
   const [openAuthModal, setOpenAuthModal] = useState(false)
   const [currentAuthMethod, setCurrentAuthMethod] = useState('')
   const [dataFetching, setDataFetching] = useState(false);
+  const [authUser, setAuthUser] = useState();
 
   const HandleCurrentTeamChange = (index) => {
     setCurrentTeam(nbaTeams[index]._id)
@@ -85,7 +87,8 @@ export default function Home({ teams }) {
         handleLogin().then(res => {
           setDataFetching(false)
           toast.success(`Welcome ${res}!`)
-          console.log("register result", res)
+          setAuthUser(res);
+          setOpenAuthModal(false);
         }).catch(ex => {
           setDataFetching(false)
           toast.error(ex)
@@ -97,7 +100,8 @@ export default function Home({ teams }) {
         handleRegister().then(res => {
           setDataFetching(false)
           toast.success(`Welcome ${res.username}!`)
-          console.log("register result", res)
+          setAuthUser(res);
+          setOpenAuthModal(false)
         }).catch(e => {
           setDataFetching(false)
           toast.error(e.msg)
@@ -111,7 +115,8 @@ export default function Home({ teams }) {
   const handleLogin = () => {
     return new Promise(async (resolve, reject) => {
       try {
-        const {data} = await LoginUser(user);
+        console.log('USER -- ', loginUser)
+        const {data} = await LoginUser(loginUser);
         // find user by token
         resolve(data);
       } catch (error) {
@@ -137,67 +142,69 @@ export default function Home({ teams }) {
   }
   return (
     <>
-      <Head>
-        <title>NBA_fantasy</title>
-        <link
-          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-          rel="stylesheet"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-          crossOrigin="anonymous"
-        ></link>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
-          rel="stylesheet"
-        ></link>
-        <link rel="icon" href="/nba_1.png" />
-      </Head>
-      <div style={{ width: '100%', height: '100%', overflowY: 'scroll' }}>
-        <Navbar
-          handleChange={HandleUserCredentialChange}
-          handleClose={() => setOpenAuthModal(false)}
-          handleOpen={() => {
-            setOpenAuthModal(true)
-          }}
-          open={openAuthModal}
-          handleLinkClick={handleLinkClick}
-          handleSubmit={HanldeSubmit}
-          user={currentAuthMethod === 'register' ? user : loginUser}
-          loading={dataFetching}
-          color={color}
-        />
-        {loaded ? (
-          <div style={{ paddingTop: 20, overflowY: 'scroll' }}>
-            <>
-              <ToastContainer />
-              <DynamicComponentWithNoSSR
-                teams={nbaTeams}
-                handleClick={HandleCardClick}
-                handleChange={HandleCurrentTeamChange}
-              />
-              <div style={{ marginTop: 20 }}>
-                <Info team_id={currentTeam} handleClick={(id) => {
-                  router.push({
-                    pathname: '/player/[id]',
-                    query: {id: id, teamId: currentTeam}
-                  })
-                }}/>
-              </div>
-            </>
-          </div>
-        ) : (
-          <div
-            style={{
-              height: '80vh',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
+    <UserContext.Provider value={authUser}>
+        <Head>
+          <title>NBA_fantasy</title>
+          <link
+            href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            rel="stylesheet"
+            integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+            crossOrigin="anonymous"
+          ></link>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+            rel="stylesheet"
+          ></link>
+          <link rel="icon" href="/nba_1.png" />
+        </Head>
+        <div style={{ width: '100%', height: '100%', overflowY: 'scroll' }}>
+          <Navbar
+            handleChange={HandleUserCredentialChange}
+            handleClose={() => setOpenAuthModal(false)}
+            handleOpen={() => {
+              setOpenAuthModal(true)
             }}
-          >
-            <Loader size={60} />
-          </div>
-        )}
-      </div>
-      <Footer color={color} />
+            open={openAuthModal}
+            handleLinkClick={handleLinkClick}
+            handleSubmit={HanldeSubmit}
+            user={currentAuthMethod === 'register' ? user : loginUser}
+            loading={dataFetching}
+            color={color}
+          />
+          {loaded ? (
+            <div style={{ paddingTop: 20, overflowY: 'scroll' }}>
+              <>
+                <ToastContainer />
+                <DynamicComponentWithNoSSR
+                  teams={nbaTeams}
+                  handleClick={HandleCardClick}
+                  handleChange={HandleCurrentTeamChange}
+                />
+                <div style={{ marginTop: 20 }}>
+                  <Info team_id={currentTeam} handleClick={(id) => {
+                    router.push({
+                      pathname: '/player/[id]',
+                      query: {id: id, teamId: currentTeam}
+                    })
+                  }}/>
+                </div>
+              </>
+            </div>
+          ) : (
+            <div
+              style={{
+                height: '80vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Loader size={60} />
+            </div>
+          )}
+        </div>
+        <Footer color={color} />
+    </UserContext.Provider>
     </>
   )
 }

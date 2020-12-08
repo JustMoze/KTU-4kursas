@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import NavLink from './NavLink'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
-import { NBA_blue } from '../../../styles/globalStyle.module.scss'
 import './style.module.scss'
 import AuthModal from './../Auth/AuthModal'
 import { IoIosBasketball } from "react-icons/io";
 import { RobotoM400 } from '../../../utils/fonts'
 import Match from '../Match/Match'
+import InfoModal from '../Info/InfoModal'
+import {RiUser6Line} from 'react-icons/ri'
 
 const Container = styled.div`
   background-color: ${(props) => props.color};
@@ -97,6 +98,9 @@ const RobotoM400Play = styled(RobotoM400)`
     font-size: 20px;
   }
 `;
+const InfoIconContainer = styled.div`
+  
+`
 export default function Navbar({
   handleOpen,
   handleLinkClick,
@@ -106,6 +110,9 @@ export default function Navbar({
   const [authName, setAuthName] = useState('')
   const router = useRouter()
   const [startBattle, setStartBattle] = useState(false);
+    // -------------- Personal info -------------------------
+  const [openInfoModal, setOpenInfoModal] = useState(false);
+
   return (
     <>
       <Container color={color}>
@@ -150,9 +157,13 @@ export default function Navbar({
           />
           <NavLink to="/team" name="About" />
         </LinkContainer>
+        <div style={{position: "absolute", top: 10, right: 10, width: 25, height: 25, borderRadius: '50%', borderColor: '#ffffff', zIndex: 5, cursor: "pointer", borderWidth: 1, justifyContent: "center", alignItems: "center"}} onClick={() => setOpenInfoModal(true)}>
+            <RiUser6Line size={25} color="#ffffff" />
+        </div>
       </Container>
       <AuthModal type={authName} color={color} {...rest} />
       <Match color={color} handleClose={() => setStartBattle(false)} open={startBattle}/>
+      <InfoModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)}/>
     </>
   )
 }

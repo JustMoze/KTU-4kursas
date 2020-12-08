@@ -12,5 +12,8 @@ export function PostUser(user) {
 }
 
 export function LoginUser(user){
-    return http.post(`${authApi}`, user)
+    return http.post(`${authApi}`, {
+        email: user.email,
+        password: user.password
+    })
 }
