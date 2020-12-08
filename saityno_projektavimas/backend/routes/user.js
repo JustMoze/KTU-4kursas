@@ -113,7 +113,7 @@ router.post('/', async (req, res) => {
         console.log("token -> ", token);
         res.header("x-auth-token", token)
         .send(_.pick(user, ["_id", "username", "email", "isAdmin"]));
-    } catch (error) {
+    } catch (ex) {
         res.send(400);
     }
 });

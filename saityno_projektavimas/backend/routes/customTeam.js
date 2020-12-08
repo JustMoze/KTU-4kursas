@@ -25,9 +25,9 @@ router.post('/:id', validateObjectId, async (req, res) => {
 		});
 		await customTeam.save();
 		res.status(200).send(customTeam);
-	} catch (error) {
+	} catch (ex) {
 		res.sendStatus(400);
-		throw new Error(error);
+		throw new Error(ex);
 	}
 });
 // find customTeam by owner id
