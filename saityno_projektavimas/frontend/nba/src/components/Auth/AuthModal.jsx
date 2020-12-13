@@ -72,7 +72,7 @@ const IconContainer = styled.div`
   min-width: 25px;
   min-height: 25px;
 `
-
+/*eslint func-style: ["error", "expression"]*/
 const AuthModal = ({
   open,
   handleClose,

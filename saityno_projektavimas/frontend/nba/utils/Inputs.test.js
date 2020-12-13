@@ -1,4 +1,5 @@
-const { validateEmail, validateLength, UpperCaseLetter } = require("./Inputs");
+/* eslint no-use-before-define: 0 */
+const { validateEmail, validateLength, UpperCaseLetter } = require('./Inputs');
 
 test('validation email when email is correct ', () => {
     let email = 'mykolas@gmail.com';
@@ -16,15 +17,18 @@ test('Validate length function testing', () => {
     let min = 3;
     let max = 17;
     let input = 'jest testing';
-    console.log(input.length)
-    let name = 'Jest'
+    console.log(input.length);
+    let name = 'Jest';
 
     expect(validateLength(min, max, input, name)).toStrictEqual([]);
 
     let newInput = 'no';
-    expect(validateLength(min, max, newInput, name)).toStrictEqual(["Jest must be longer then 2 characters"]);
+    expect(validateLength(min, max, newInput, name)).toStrictEqual([
+        'Jest must be longer then 2 characters'
+    ]);
 
     newInput = 'This wont work because it is to long';
-    expect(validateLength(min, max, newInput, name)).toStrictEqual(["Jest must be shorter then 16 characters"]);
-})
-
+    expect(validateLength(min, max, newInput, name)).toStrictEqual([
+        'Jest must be shorter then 16 characters'
+    ]);
+});

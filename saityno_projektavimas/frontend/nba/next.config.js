@@ -1,9 +1,9 @@
-const withImages = require('next-images')
-const withSass = require('@zeit/next-sass')
-module.exports = withImages()
+const withImages = require('next-images');
+const withSass = require('@zeit/next-sass');
+module.exports = withImages();
 module.exports = {
-  experimental: { granularChunks: true },
-}
+    experimental: { granularChunks: true }
+};
 
 //   webpack(config, options) {
 //     // config.module.rules.push({

@@ -1,0 +1,7 @@
+node_modules
+eslint --fix . --ignore-path ./.gitignore
+
+utils
+pages/
+next.config.js
+service
