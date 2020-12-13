@@ -4,4 +4,4 @@ export const breakpoints = {
     md: '992px',
     lg: '1200px',
     xl: '1400px'
-  };
+};

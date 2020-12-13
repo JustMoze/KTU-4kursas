@@ -15,7 +15,7 @@ var savedTeams = [];
         const href = await page.evaluate(e => e.href, elem);
         const newPage = await browser.newPage();
         await newPage.goto(href, {waitUntil: 'networkidle2'});
-        let teamData = await newPage.evaluate(async (i) => {
+        let teamData = await newPage.evaluate(async () => {
             let full_nameQuery = document.querySelector('.nba-team-header__team-location');
             let winLossQuery = document.querySelector('.winloss');
             let ppgQuery = document.querySelector('.team_stat span');

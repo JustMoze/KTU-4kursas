@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Thead, Tbody, Tr, Th } from 'react-super-responsive-table'
+import { Thead, Tbody, Tr, Th, Td  } from 'react-super-responsive-table'
 import styled from 'styled-components'
 import { TiChevronRight, TiChevronLeft } from 'react-icons/ti'
 import Loader from '../Loader/Loader'
@@ -68,6 +68,10 @@ const NavigationContainer = styled.div`
       margin-top: 10px;
     }
 `;
+const CustomTdContent = styled(Td)`
+    width: 100%;
+`;
+
 function SiteTable({ color, abbreviation, handleClick, center = false }) {
   const [loading, setLoading] = useState(true)
   const [chartPlayers, setChartPlayers] = useState()
@@ -197,26 +201,28 @@ function SiteTable({ color, abbreviation, handleClick, center = false }) {
                     )
                   })}
                   <ArrowsRow color={color}>
-                    <NavigationContainer style={{width: center ? '100%' : '50%', justifyContent: center ? "center" : "flex-end"}}>
-                      <ArrowContainer
-                        color={color}
-                        enable={number > 0 ? true : false}
-                        onClick={() => handleArrowClick('left')}
-                      >
-                        {number !== 0 && (
-                          <TiChevronLeft size={45} color="#ffffff" />
-                        )}
-                      </ArrowContainer>
-                      <ArrowContainer
-                        color={color}
-                        enable={allowRight}
-                        onClick={() => handleArrowClick('right')}
-                      >
-                        {allowRight && (
-                          <TiChevronRight size={45} color="#ffffff" />
-                        )}
-                      </ArrowContainer>
-                    </NavigationContainer>
+                    <CustomTdContent>
+                      <NavigationContainer style={{width: center ? '100%' : '50%', justifyContent: center ? "center" : "flex-end"}}>
+                        <ArrowContainer
+                          color={color}
+                          enable={number > 0 ? true : false}
+                          onClick={() => handleArrowClick('left')}
+                        >
+                          {number !== 0 && (
+                            <TiChevronLeft size={45} color="#ffffff" />
+                          )}
+                        </ArrowContainer>
+                        <ArrowContainer
+                          color={color}
+                          enable={allowRight}
+                          onClick={() => handleArrowClick('right')}
+                        >
+                          {allowRight && (
+                            <TiChevronRight size={45} color="#ffffff" />
+                          )}
+                        </ArrowContainer>
+                      </NavigationContainer>
+                    </CustomTdContent>
                   </ArrowsRow>
                 </CustomBody>
               </CustomTable>

@@ -66,6 +66,7 @@ var savedPlayers = [];
 			let threePt = 0;
 			let ft = 0;
 			let ppg = 0;
+			let apg = 0;
 			let rpg = 0;
 			let bpg = 0;
 			let age = 'undefined';

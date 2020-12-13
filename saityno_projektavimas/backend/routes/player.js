@@ -61,9 +61,9 @@ router.post('/', admin ,async (req, res) => {
 		await newPlayer.save();
 		res.send(newPlayer);
 		
-	} catch (error) {
-		console.log('Unexpected error ->', error);
-		res.send(error);
+	} catch (ex) {
+		console.log('Unexpected ex ->', ex);
+		res.send(ex);
 	}
 });
 router.delete('/:id', [validateObjectId, admin], async (req,res) => {
