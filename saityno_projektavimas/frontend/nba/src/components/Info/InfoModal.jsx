@@ -1,7 +1,9 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import Modal from '@material-ui/core/Modal'
 import styled from 'styled-components'
 import {AiOutlineLogout} from 'react-icons/ai'
+import PlayerCard from '../Card';
+import { UserContext } from '../../../userContext';
 
 const StyledComponent = styled(Modal)`
   position: absolute;
@@ -33,6 +35,7 @@ const LogoutContainer = styled.div`
     cursor: pointer;
 `;
 export default function InfoModal({ open, handleClose }) {
+  const appUser = useContext(UserContext);
   return (
     <StyledComponent
       open={open}
@@ -42,10 +45,14 @@ export default function InfoModal({ open, handleClose }) {
     >
         <>   
         <ModalContainer>
-            <h1 style={{marginTop: 0}}>sveiki</h1>
+            <h1 style={{marginTop: 0}}>sveiki {appUser &&  appUser.username}</h1>
             <LogoutContainer>
                     <AiOutlineLogout size={35} color="#ffffff"/>
             </LogoutContainer>
+            <div style={{padding: 7, marginTop: 10}}>
+
+            <PlayerCard />
+            </div>
         </ModalContainer>
         </>
     </StyledComponent>

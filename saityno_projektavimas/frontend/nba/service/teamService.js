@@ -13,3 +13,6 @@ export function GetTeamById(id) {
 export function GetUserTeam(userId) {
     return http.get(`${customTeamAPI}/${userId}`);
 }
+export function GetByAbbreviation(abr){
+    return http.get(`${teamsAPI}/abr/${abr}`)
+}

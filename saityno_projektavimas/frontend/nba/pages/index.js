@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { LoginUser, PostUser } from '../service/userService';
 import { ToastContainer, toast } from 'react-toastify';
 import { UserContext } from '../userContext';
+import { descriptToken } from '../service/decoder'
 
 const DynamicComponentWithNoSSR = dynamic(() => import('../src/components/Slider/Slider'), {
     ssr: false
@@ -40,6 +41,7 @@ export default function Home({ teams }) {
     const [currentAuthMethod, setCurrentAuthMethod] = useState('');
     const [dataFetching, setDataFetching] = useState(false);
     const [authUser, setAuthUser] = useState();
+    const [pageNumber, setPageNumber] = useState(1);
 
     const HandleCurrentTeamChange = (index) => {
         setCurrentTeam(nbaTeams[index]._id);
@@ -78,6 +80,17 @@ export default function Home({ teams }) {
         }
     }, [teams]);
 
+    useEffect(() => {
+        let token = localStorage.getItem('token');
+        console.log("chekcing")
+        if(token && !authUser){
+            console.log("no authUser was set, token found")
+            let userData = descriptToken(token);
+            setAuthUser(userData);
+        }
+    }, [])
+    console.log('auth user', authUser)
+
     const HanldeSubmit = (type) => {
         console.log('type', type);
         setDataFetching(true);
@@ -85,9 +98,12 @@ export default function Home({ teams }) {
             case 'login':
                 handleLogin()
                     .then((res) => {
+                        console.log("res", res)
+                        window.localStorage.setItem('token', res)
+                        let userData = descriptToken(res)                      
                         setDataFetching(false);
-                        toast.success(`Welcome ${res}!`);
-                        setAuthUser(res);
+                        toast.success(`Welcome ${userData.username}!`);
+                        setAuthUser(userData);
                         setOpenAuthModal(false);
                     })
                     .catch((ex) => {
@@ -113,13 +129,13 @@ export default function Home({ teams }) {
                 break;
         }
     };
-
     // login promise
     const handleLogin = () => {
         return new Promise(async (resolve, reject) => {
             try {
                 console.log('USER -- ', loginUser);
                 const { data } = await LoginUser(loginUser);
+                console.log('data while login in', data)
                 // find user by token
                 resolve(data);
             } catch (error) {
@@ -127,7 +143,6 @@ export default function Home({ teams }) {
             }
         });
     };
-
     // register promise
     const handleRegister = () => {
         return new Promise(async (resolve, reject) => {
@@ -143,8 +158,19 @@ export default function Home({ teams }) {
     const handleLinkClick = (linkName) => {
         setCurrentAuthMethod(linkName);
     };
+    const handleClickPageNumberChange = (side) => {
+        switch (side) {
+            case -1:
+                setPageNumber(pageNumber - 1);
+                break;
+        
+            default:
+                setPageNumber(pageNumber + 1)
+                break;
+        }
+    }
     return (
-        <>
+
             <UserContext.Provider value={authUser}>
                 <Head>
                     <title>NBA_fantasy</title>
@@ -160,6 +186,8 @@ export default function Home({ teams }) {
                 </Head>
                 <div style={{ width: '100%', height: '100%', overflowY: 'scroll' }}>
                     <Navbar
+                        pageNumber={pageNumber}
+                        onPageChange={handleClickPageNumberChange}
                         handleChange={HandleUserCredentialChange}
                         handleClose={() => setOpenAuthModal(false)}
                         handleOpen={() => {
@@ -208,7 +236,6 @@ export default function Home({ teams }) {
                 </div>
                 <Footer color={color} />
             </UserContext.Provider>
-        </>
     );
 }
 export async function getStaticProps() {

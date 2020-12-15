@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import NavLink from './NavLink'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
@@ -9,6 +9,7 @@ import { RobotoM400 } from '../../../utils/fonts'
 import Match from '../Match/Match'
 import InfoModal from '../Info/InfoModal'
 import {RiUser6Line} from 'react-icons/ri'
+import { UserContext } from '../../../userContext'
 
 const Container = styled.div`
   background-color: ${(props) => props.color};
@@ -102,11 +103,15 @@ const InfoIconContainer = styled.div`
   
 `
 export default function Navbar({
+  empty = false,
   handleOpen,
   handleLinkClick,
   color,
+  pageNumber, 
+  onPageChange,
   ...rest
 }) {
+  const currentUser = useContext(UserContext);
   const [authName, setAuthName] = useState('')
   const router = useRouter()
   const [startBattle, setStartBattle] = useState(false);
@@ -117,7 +122,7 @@ export default function Navbar({
     <>
       <Container color={color}>
         <BattleContainer>
-          <div style={{position: "relative", width: '100%', height: 80}}>
+          {currentUser && <div style={{position: "relative", width: '100%', height: 80}}>
             <HoverAppereance onClick={() => setStartBattle(true)}>
                 <RobotoM400Play>
                   QUICK GAME
@@ -126,9 +131,9 @@ export default function Navbar({
             <PlayIcon>
                 <IoIosBasketball size={80} color="#B54213"/>
             </PlayIcon>
-          </div>
+          </div>}
         </BattleContainer>
-        <LogoContainer
+          <LogoContainer
           onClick={() => {
             router.push('/')
           }}
@@ -138,7 +143,13 @@ export default function Navbar({
             height="100%"
           />
         </LogoContainer>
+        {!empty && <>
         <LinkContainer>
+        {currentUser ?
+        <>
+          <NavLink to="/team" name="About" />
+        </> : 
+        <>
           <NavLink
             handleClick={() => {
               setAuthName('login')
@@ -155,15 +166,30 @@ export default function Navbar({
             }}
             name="Register"
           />
-          <NavLink to="/team" name="About" />
+        </>
+        }
+        <NavLink handleClick={() => {
+            router.push(
+              {
+                pathname: '/allPlayers/[id]',
+                query: { id: pageNumber }
+              }
+            )
+          }} name="Players" />
         </LinkContainer>
-        <div style={{position: "absolute", top: 10, right: 10, width: 25, height: 25, borderRadius: '50%', borderColor: '#ffffff', zIndex: 5, cursor: "pointer", borderWidth: 1, justifyContent: "center", alignItems: "center"}} onClick={() => setOpenInfoModal(true)}>
-            <RiUser6Line size={25} color="#ffffff" />
-        </div>
+        {currentUser && 
+          <div style={{position: "absolute", top: 10, right: 10, width: 25, height: 25, borderRadius: '50%', borderColor: '#ffffff', zIndex: 5, cursor: "pointer", borderWidth: 1, justifyContent: "center", alignItems: "center"}} onClick={() => setOpenInfoModal(true)}>
+          <RiUser6Line size={25} color="#ffffff" />
+      </div>}
+        
+        </> }
+
       </Container>
-      <AuthModal type={authName} color={color} {...rest} />
-      <Match color={color} handleClose={() => setStartBattle(false)} open={startBattle}/>
-      <InfoModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)}/>
+      {!empty && <> 
+        <AuthModal type={authName} color={color} {...rest} />
+        <Match color={color} handleClose={() => setStartBattle(false)} open={startBattle}/>
+        <InfoModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)}/>
+      </>}
     </>
   )
 }
